@@ -1,0 +1,41 @@
+class Solution {
+    int t[][]= new int[101][10001];
+    public int superEggDrop(int k, int n) {
+        for(int row[]:t){
+            Arrays.fill(row,-1);
+        }
+        return solve(k,n);
+    }
+    int solve(int e, int f){
+        if(f==1 || f==0){
+            return f;
+        }
+        if(e==1) return f;
+        if(t[e][f]!=-1){
+            return t[e][f];
+        }
+        
+        int mn= Integer.MAX_VALUE;
+
+        for(int k=1; k<=f; k++){
+        int low, high;
+        if(t[e-1][k-1]!=-1){
+            low=t[e-1][k-1];
+        }
+        else{
+            low=solve(e-1,k-1);
+            t[e-1][k-1]=low;
+        }
+        if(t[e][f-k]!=-1){
+            high=t[e][f-k];
+        }
+        else{
+            high=solve(e,f-k);
+            t[e][f-k]=high;
+        }
+            int temp = 1 + Math.max(low,high);
+            mn=Math.min(mn,temp);
+        }
+        return t[e][f]=mn;
+    }
+}

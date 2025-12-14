@@ -1,0 +1,35 @@
+class Solution {
+    public int superEggDrop(int k, int n) {
+        // If we have 0 or 1 floor, the answer is the number of floors.
+        if (n == 0 || n == 1) return n;
+        // If we have 1 egg, the answer is always the number of floors.
+        if (k == 1) return n;
+
+        // DP[d][e] = max floors checkable with 'd' drops and 'e' eggs.
+        // We only need the previous row's results, so we can use a 2D array 
+        // or a rolling 2D array. Here we use a standard 2D array for clarity.
+        // Since the max number of drops (d) is small (e.g., < 15 for N=10000), 
+        // we set the size based on max possible drops (approx 60) and eggs (k).
+        int[][] dp = new int[n + 1][k + 1];
+
+        int drops = 0;
+        
+        // Loop by increasing the number of drops (d)
+        while (dp[drops][k] < n) {
+            drops++;
+            
+            // Loop through the number of eggs (e)
+            for (int e = 1; e <= k; e++) {
+                /*
+                 * Recurrence: DP[d][e] = DP[d-1][e-1] + DP[d-1][e] + 1
+                 * * DP[d-1][e-1]: Floors checked if the egg breaks (1 less drop, 1 less egg)
+                 * DP[d-1][e]:   Floors checked if the egg survives (1 less drop, same eggs)
+                 * +1:           The current drop floor itself
+                 */
+                dp[drops][e] = dp[drops - 1][e - 1] + dp[drops - 1][e] + 1;
+            }
+        }
+        
+        return drops;
+    }
+}
