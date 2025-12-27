@@ -1,0 +1,211 @@
+🧠 Bit Manipulation — The RIGHT Way to Learn
+0️⃣ What is a bit?
+
+A bit is 0 or 1
+
+Everything in a computer is stored in binary
+
+Example:
+
+Decimal 5  =  101 (binary)
+
+1️⃣ Bitwise Operators (FOUNDATION)
+Operator	Symbol	Meaning
+AND	&	both bits must be 1
+OR	`	`
+XOR	^	bits are different
+NOT	~	flip bits
+Left Shift	<<	shift bits left
+Right Shift	>>	shift bits right (sign)
+Unsigned Right Shift	>>>	shift right (no sign)
+2️⃣ AND (&) — Masking
+Rule
+1 & 1 = 1
+else 0
+
+Example
+5 & 3
+
+
+Binary:
+
+5 = 101
+3 = 011
+---------
+    001 = 1
+
+
+📌 Used for:
+
+Checking bits
+
+Even/odd check
+
+if ((n & 1) == 0) // even
+
+3️⃣ OR (|) — Set bits
+Rule
+0 | 1 = 1
+
+
+Example:
+
+5 | 3
+
+101
+011
+---
+111 = 7
+
+
+📌 Used for:
+
+Turning ON a bit
+
+Combining values
+
+4️⃣ XOR (^) — Magic Operator ⭐
+Rule
+Same bits → 0
+Different bits → 1
+
+
+Example:
+
+5 ^ 3
+
+101
+011
+---
+110 = 6
+
+🔥 Special properties
+a ^ a = 0
+a ^ 0 = a
+
+
+📌 Used for:
+
+Swapping without temp
+
+Finding unique number
+
+a = a ^ b;
+b = a ^ b;
+a = a ^ b;
+
+5️⃣ NOT (~) — Bit flip
+
+Example:
+
+~5
+
+
+Binary (32-bit):
+
+00000000 00000000 00000000 00000101
+→
+11111111 11111111 11111111 11111010
+
+
+Decimal:
+
+= -6
+
+
+📌 Formula:
+
+~n = -(n + 1)
+
+6️⃣ Left Shift (<<) ⭐⭐ (MOST IMPORTANT)
+Rule
+n << k  =  n × 2^k
+
+
+Example:
+
+5 << 1 = 10
+5 << 2 = 20
+
+
+Binary:
+
+5 = 101
+<<1 → 1010 = 10
+
+
+📌 Used for:
+
+Multiply by powers of 2
+
+Bit packing (like LC 1036)
+
+7️⃣ Right Shift (>>)
+Rule
+n >> k  =  n / 2^k
+
+
+Example:
+
+10 >> 1 = 5
+
+
+Keeps sign bit.
+
+8️⃣ Unsigned Right Shift (>>>)
+-10 >>> 1
+
+
+Fills left bits with 0
+
+Used rarely, but important for bit tricks
+
+9️⃣ Bit Masks (INTERVIEW GOLD)
+Check kth bit
+if ((n & (1 << k)) != 0)
+
+Set kth bit
+n = n | (1 << k);
+
+Clear kth bit
+n = n & ~(1 << k);
+
+Toggle kth bit
+n = n ^ (1 << k);
+
+🔟 Count set bits (Brian Kernighan)
+int count = 0;
+while (n > 0) {
+    n = n & (n - 1);
+    count++;
+}
+
+
+📌 Removes lowest set bit each time.
+
+1️⃣1️⃣ Power of Two Check ⭐
+if (n > 0 && (n & (n - 1)) == 0)
+
+1️⃣2️⃣ Packing two numbers into one (YOU SAW THIS)
+long key = ((long)x << 32) | y;
+
+
+Upper 32 bits → x
+Lower 32 bits → y
+
+🧠 Mental Model (VERY IMPORTANT)
+Operation	Think as
+<<	shift left → multiply
+>>	shift right → divide
+&	filter / mask
+`	`
+^	cancel / toggle
+🎯 Interview One-Liners
+
+“Left shift multiplies by 2”
+
+“XOR removes duplicates”
+
+“AND with n-1 clears lowest set bit”
+
+“Bit masking is used to test/set bits efficiently”
