@@ -1,0 +1,24 @@
+##HashMap
+
+class Solution {
+    public int[] findMissingAndRepeatedValues(int[][] grid) {
+        int [] ans=new int[2];
+        Map<Integer,Integer> mp = new HashMap<>();
+        int rows = grid.length;
+        int cols = grid[0].length;
+        for(int i=0; i<rows; i++){
+            for(int j=0; j<cols; j++){
+                mp.put(grid[i][j],mp.getOrDefault(grid[i][j],0)+1);
+            }
+        }
+        for(int num=1; num<=rows*rows;num++){
+            if(!mp.containsKey(num)){
+                ans[1]=num;
+            }
+            else if(mp.get(num)==2){
+                ans[0]=num;
+            }
+        }
+        return ans;
+    }
+}
