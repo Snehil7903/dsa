@@ -1,0 +1,37 @@
+class Solution {
+    public int minimumEffortPath(int[][] heights) {
+        int rows=heights.length;
+        int cols=heights[0].length;
+        int[][] dirs ={{1,0},{-1,0},{0,1},{0,-1}};
+        int[][] minEfforts = new int[rows][cols];
+        for(int[]r:minEfforts){
+            Arrays.fill(r,Integer.MAX_VALUE);
+        }
+        PriorityQueue<int[]> pq= new PriorityQueue<>((a,b)->a[2]-b[2]);
+
+        minEfforts[0][0]=0;
+        pq.offer(new int[]{0,0,0});
+
+        while(!pq.isEmpty()){
+            int[] curr = pq.poll();
+            int r=curr[0], c=curr[1], effort=curr[2];
+
+            if(effort>minEfforts[r][c]) continue;
+            if(r==rows-1 && c==cols-1) return effort;
+
+            for(int[]d:dirs){
+                int nr=r+d[0];
+                int nc=c+d[1];
+                if(nr>=0 && nc>=0 && nr<rows && nc<cols){
+                int jumpWeight = Math.abs(heights[r][c] - heights[nr][nc]);
+                int nextEffort = Math.max(effort, jumpWeight);
+                if (nextEffort < minEfforts[nr][nc]) {
+                        minEfforts[nr][nc] = nextEffort;
+                        pq.offer(new int[]{nr, nc, nextEffort});
+                    }
+                }
+            }
+        }
+        return minEfforts[rows-1][cols-1];
+    }
+}
