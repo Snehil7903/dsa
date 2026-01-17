@@ -1,0 +1,34 @@
+class Solution {
+    public int swimInWater(int[][] grid) {
+        int rows=grid.length;
+        int cols=grid[0].length;
+        int[][] dirs= {{1,0},{-1,0},{0,1},{0,-1}};
+        int[][] minTime = new int[rows][cols];
+        for(int[]r:minTime){
+            Arrays.fill(r,Integer.MAX_VALUE);
+        }
+        minTime[0][0]=grid[0][0];
+        PriorityQueue<int[]> pq= new PriorityQueue<>((a,b)->a[2]-b[2]);
+        pq.offer(new int[]{0,0,grid[0][0]});
+        while(!pq.isEmpty()){
+
+            int[] curr = pq.poll();
+            int r=curr[0], c=curr[1], time=curr[2];
+            if(time>minTime[r][c]) continue;
+            if(r==rows-1 && c==cols-1) return time;
+
+            for(int[]d:dirs){
+            int nr=r+d[0];
+            int nc=c+d[1];
+            if(nr>=0 && nc>=0 && nr<rows && nc<cols){
+                int newTime=Math.max(time,grid[nr][nc]);
+                if(newTime<minTime[nr][nc]){
+                    minTime[nr][nc]=newTime;
+                    pq.offer(new int[]{nr,nc,newTime});
+                }
+            }
+            }
+        }
+        return minTime[rows-1][cols-1];
+    }
+}
