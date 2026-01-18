@@ -1,0 +1,70 @@
+class Solution {
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        int[] prices = new int[n];
+        Arrays.fill(prices, Integer.MAX_VALUE);
+        prices[src] = 0;
+        for (int i = 0; i <= k; i++) {
+            int[] tempPrices = Arrays.copyOf(prices, n);
+            for (int[] flight : flights) {
+                int u = flight[0];
+                int v = flight[1];
+                int weight = flight[2];
+                if (prices[u] == Integer.MAX_VALUE) continue;
+                if (prices[u] + weight < tempPrices[v]) {
+                    tempPrices[v] = prices[u] + weight;
+                }
+            }
+            prices = tempPrices;
+        }
+        return prices[dst] == Integer.MAX_VALUE ? -1 : prices[dst];
+    }
+}
+
+Dijkstra
+
+class Solution {
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        // Build Adjacency List: Map<Source, List<int[]{Destination, Price}>>
+        Map<Integer, List<int[]>> adj = new HashMap<>();
+        for (int[] f : flights) {
+            adj.computeIfAbsent(f[0], x -> new ArrayList<>()).add(new int[]{f[1], f[2]});
+        }
+
+        // stops[i] will store the minimum stops used to reach node i with the current price
+        int[] minStops = new int[n];
+        Arrays.fill(minStops, Integer.MAX_VALUE);
+
+        // PriorityQueue stores: {current_price, current_node, stops_used}
+        // We sort by price to keep the Dijkstra greedy property
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+        
+        pq.offer(new int[]{0, src, 0});
+
+        while (!pq.isEmpty()) {
+            int[] curr = pq.poll();
+            int price = curr[0];
+            int node = curr[1];
+            int stops = curr[2];
+
+            // If we found the destination, the first time we poll it, it's the cheapest
+            if (node == dst) return price;
+
+            // If we have no more stops allowed, we can't move to neighbors
+            if (stops > k) continue;
+
+            // Optimization: If we reached this node before with fewer stops, 
+            // and Dijkstra guarantees we reached it with a lower or equal price, 
+            // there's no point in exploring this path further.
+            if (stops >= minStops[node]) continue;
+            minStops[node] = stops;
+
+            if (adj.containsKey(node)) {
+                for (int[] next : adj.get(node)) {
+                    pq.offer(new int[]{price + next[1], next[0], stops + 1});
+                }
+            }
+        }
+
+        return -1;
+    }
+}
