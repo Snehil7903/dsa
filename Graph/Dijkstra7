@@ -1,0 +1,44 @@
+Lc3650
+
+Modified Dijkstra (Important)
+
+class Solution {
+    public int minCost(int n, int[][] edges) {
+
+        Map<Integer,List<int[]>> adj = new HashMap<>();
+        for(int[] e: edges){
+            int u=e[0], v=e[1], w=e[2];
+            adj.computeIfAbsent(u, k->new ArrayList<>()).add(new int[]{v,w});
+            adj.computeIfAbsent(v, k->new ArrayList<>()).add(new int[]{u,2*w});
+        }
+
+        int[] dists = new int[n];
+        Arrays.fill(dists, Integer.MAX_VALUE);
+        dists[0]=0;
+
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->a[1]-b[1]);
+        pq.offer(new int[]{0,0});
+
+        while(!pq.isEmpty()){
+
+            int[] curr = pq.poll();
+            int u= curr[0];
+            int w= curr[1];
+
+            if(w>dists[u]) continue;
+            if(u==n-1) return w;
+
+            if(adj.containsKey(u)){
+                for(int[] neighbour : adj.get(u)){
+                    int v= neighbour[0];
+                    int wt= neighbour[1];
+                    if(dists[u]+wt<dists[v]){
+                        dists[v]=dists[u]+wt;
+                        pq.offer(new int[]{v,dists[v]});
+                    }
+                }
+            }
+        }
+        return dists[n-1]==Integer.MAX_VALUE?-1:dists[n-1];
+    }
+}
