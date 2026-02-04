@@ -1,0 +1,32 @@
+3640. Trionic Array 2
+
+class Solution {
+    public long maxSumTrionic(int[] nums) {
+        int n = nums.length;
+        long inc1 = Long.MIN_VALUE / 2; 
+        long dec  = Long.MIN_VALUE / 2; 
+        long inc2 = Long.MIN_VALUE / 2; 
+        long ans = Long.MIN_VALUE;
+        for (int i = 1; i < n; i++) {
+            long curr = nums[i];
+            long prev = nums[i - 1];
+            long nextInc1 = Long.MIN_VALUE / 2;
+            long nextDec  = Long.MIN_VALUE / 2;
+            long nextInc2 = Long.MIN_VALUE / 2;
+            if (curr > prev) {
+                nextInc1 = curr + Math.max(prev, inc1);
+            }
+            if (curr < prev) {
+                nextDec = curr + Math.max(inc1, dec);
+            }
+            if (curr > prev) {
+                nextInc2 = curr + Math.max(dec, inc2);
+            }
+            inc1 = nextInc1;
+            dec  = nextDec;
+            inc2 = nextInc2;
+            ans = Math.max(ans, inc2);
+        }
+        return ans;
+    }
+}
