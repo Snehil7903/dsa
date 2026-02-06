@@ -1,0 +1,20 @@
+lc3634. Minimum Removals to Balance Array
+
+class Solution {
+    public int minRemoval(int[] nums, int k) {
+        int n = nums.length;
+        Arrays.sort(nums);
+
+        int maxKeep = 1; 
+        int l = 0;
+
+        for (int r = 0; r < n; r++) {
+            while ((long) nums[r] > (long) k * nums[l]) {
+                l++;
+            }
+            maxKeep = Math.max(maxKeep, r - l + 1);
+        }
+
+        return n - maxKeep;
+    }
+}
