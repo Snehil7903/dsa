@@ -1,0 +1,51 @@
+import java.util.*;
+
+class Solution {
+
+    int n;
+    boolean[] visited;
+    List<List<Integer>> graph;
+
+    public boolean hasHamiltonianPath(int n, int[][] edges) {
+
+        this.n = n;
+        visited = new boolean[n];
+
+        // build graph
+        graph = new ArrayList<>();
+        for (int i = 0; i < n; i++)
+            graph.add(new ArrayList<>());
+
+        for (int[] e : edges) {
+            graph.get(e[0]).add(e[1]);
+            graph.get(e[1]).add(e[0]); // undirected
+        }
+
+        // try starting from every node
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(visited, false);
+            if (dfs(i, 1))
+                return true;
+        }
+
+        return false;
+    }
+
+    private boolean dfs(int node, int count) {
+
+        visited[node] = true;
+
+        if (count == n) // visited all vertices
+            return true;
+
+        for (int nei : graph.get(node)) {
+            if (!visited[nei]) {
+                if (dfs(nei, count + 1))
+                    return true;
+            }
+        }
+
+        visited[node] = false; // backtrack
+        return false;
+    }
+}
