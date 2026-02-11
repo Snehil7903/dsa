@@ -1,0 +1,22 @@
+int sum = 0; 
+int mx = Integer.MIN_VALUE;
+int i = 0, j = 0;
+int n = arr.length;
+
+while (j < n) {
+    sum = sum + arr[j]; // Add the new element
+    
+    // 1. Expand the window until it reaches size k
+    if (j - i + 1 < k) {
+        j++;
+    } 
+    // 2. Once window size is exactly k
+    else if (j - i + 1 == k) {
+        mx = Math.max(mx, sum); // Update max
+        
+        sum = sum - arr[i]; // Remove the element leaving the window
+        i++; // Slide the start
+        j++; // Slide the end
+    }
+}
+return mx;
