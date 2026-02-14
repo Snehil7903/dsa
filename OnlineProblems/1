@@ -1,0 +1,42 @@
+901. Online Stock Span
+1️⃣ First: Understand the nature of the problem
+LC 901 is an ONLINE problem.
+That one word changes everything.
+Online means:
+You do not get all prices at once
+You get one price per call
+You must answer immediately
+You cannot look into the future
+
+3️⃣ Key Insight (THIS is the breakthrough)
+The stack is NOT “automatically built”
+
+👉 You are building it incrementally
+👉 One next(price) call at a time
+
+Each call:
+Represents one new element in the stream
+Updates the stack
+Maintains a strict invariant
+The stack is a compressed representation of history.
+
+
+class StockSpanner {
+
+    private Stack<int[]> stack;
+
+    public StockSpanner() {
+        stack = new Stack<>();
+    }
+
+    public int next(int price) {
+        int span = 1;
+
+        while (!stack.isEmpty() && stack.peek()[0] <= price) {
+            span += stack.pop()[1];
+        }
+
+        stack.push(new int[]{price, span});
+        return span;
+    }
+}
