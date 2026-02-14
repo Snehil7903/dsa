@@ -49,3 +49,39 @@ class Solution {
         return Math.min(1.0, dp[query_glass]);
     }
 }
+
+
+8️⃣ Similar Problems (VERY IMPORTANT)
+🔹 Same Core Pattern
+
+LeetCode 808 – Soup Servings
+
+Probabilistic flow
+
+DP with distribution
+
+LeetCode 837 – New 21 Game
+
+Probability spreading
+
+Sliding window DP
+
+LeetCode 1223 – Dice Roll Simulation
+
+State transition with constraints
+
+🔹 Grid / Triangle DP
+
+Triangle (LC 120)
+
+Pascal’s Triangle
+
+Unique Paths with Probabilities
+
+🔹 Flow-like Simulation
+
+LeetCode 1091 – Shortest Path (BFS propagation)
+
+Flood Fill variants
+
+Water trapping simulations (conceptually)
