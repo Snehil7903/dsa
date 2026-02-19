@@ -1,0 +1,40 @@
+696. Count Binary Substrings
+
+
+class Solution {
+    public int countBinarySubstrings(String s) {
+        int prev = 0, curr = 1, ans = 0;
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i) == s.charAt(i - 1)) {
+                curr++;
+            } else {
+                ans += Math.min(prev, curr);
+                prev = curr;
+                curr = 1;
+            }
+        }
+        ans += Math.min(prev, curr);
+        return ans;
+    }
+}
+
+class Solution {
+    public int countBinarySubstrings(String s) {
+        List<Integer> groups = new ArrayList<>();
+        int count = 1;
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i) == s.charAt(i - 1)) {
+                count++;
+            } else {
+                groups.add(count);
+                count = 1;
+            }
+        }
+        groups.add(count);
+        int ans = 0;
+        for (int i = 1; i < groups.size(); i++) {
+            ans += Math.min(groups.get(i), groups.get(i - 1));
+        }
+        return ans;
+    }
+}
