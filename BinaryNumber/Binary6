@@ -1,3 +1,5 @@
+761. Special Binary String
+
 class Solution {
     public String makeLargestSpecial(String s) {
         List<String> parts = new ArrayList<>();
