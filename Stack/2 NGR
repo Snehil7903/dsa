@@ -1,0 +1,33 @@
+import java.util.*;
+
+public class Solution {
+    public ArrayList<Integer> nearestGreaterRight(int[] arr) {
+        int n = arr.length;
+        ArrayList<Integer> result = new ArrayList<>();
+        Stack<Integer> stack = new Stack<>();
+
+        // Loop from RIGHT to LEFT
+        for (int i = n - 1; i >= 0; i--) {
+            // 1. Pop smaller elements (they aren't "greater" candidates anymore)
+            while (!stack.isEmpty() && stack.peek() <= arr[i]) {
+                stack.pop();
+            }
+
+            // 2. The top of the stack is the NGR for arr[i]
+            if (stack.isEmpty()) {
+                result.add(-1);
+            } else {
+                result.add(stack.peek());
+            }
+
+            // 3. Push current element for the people on the left
+            stack.push(arr[i]);
+        }
+
+        // 4. Since we added from right-to-left, the list is backwards.
+        // Reverse it to get the correct order.
+        Collections.reverse(result);
+        
+        return result;
+    }
+}
