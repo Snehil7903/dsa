@@ -1,0 +1,38 @@
+Its a type of fixed Sliding Window
+
+To find maximum sum from a subarray of size k in a array arr
+
+int sum=0;
+int mx=Integer.MIN_VALUE;
+int i=0, j=0;
+while(j<size)
+{
+    sum=sum+arr[j]; //to move right index
+    if(j-i+1<k) j++; //to get to the window size
+    else if(j-i+1==k){
+        mx=Math.max(mx,sum); //To compare the current sum to max and get more max
+
+        sum=sum-arr[i]; //To move left index
+        i++; //move left
+        j++; //move right
+    }
+}
+
+
+To find minimum sum from a subarray of size k in a array arr
+
+int sum=0;
+int mn=Integer.MAX_VALUE;
+int i=0, j=0;
+while(j<size)
+{
+    sum=sum+arr[j]; //to move right index
+    if(j-i+1<k) j++; //to get to the window size
+    else if(j-i+1==k){
+        mn=Math.min(mn,sum); //To compare the current sum to max and get more max
+
+        sum=sum-arr[i]; //To move left index
+        i++; //move left
+        j++; //move right
+    }
+}
