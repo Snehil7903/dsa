@@ -1,0 +1,32 @@
+import java.util.*;
+
+public class Solution {
+    public ArrayList<Integer> nearestGreaterLeft(int[] arr) {
+
+        //to store answer
+        ArrayList<Integer> result = new ArrayList<>();
+        // We need stack to maintain smaller element.
+        Stack<Integer> stack = new Stack<>();
+
+        for (int i = 0; i < arr.length; i++) {
+            // 1. Pop all elements that are smaller than or equal to current element
+            // because they are no longer the "nearest greater" for anyone to the right
+            while (!stack.isEmpty() && stack.peek() <= arr[i]) {
+                stack.pop();
+            }
+
+            // 2. If stack is empty, there is no greater element to the left
+            if (stack.isEmpty()) {
+                result.add(-1);
+            } else {
+                // 3. Otherwise, the top of the stack is our nearest greater
+                result.add(stack.peek());
+            }
+
+            // 4. Push the current element onto the stack
+            stack.push(arr[i]);
+        }
+
+        return result;
+    }
+}
