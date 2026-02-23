@@ -1,0 +1,28 @@
+class Solution {
+    public boolean hasAllCodes(String s, int k) {
+        int totalNeeded = 1 << k; // This is 2^k
+        boolean[] found = new boolean[totalNeeded];
+        int count = 0;
+        int currentHash = 0;
+        
+        // Bitmask to keep the number within K bits (e.g., if k=3, mask is 111)
+        int mask = totalNeeded - 1;
+
+        for (int i = 0; i < s.length(); i++) {
+            // 1. Shift left and add the new bit
+            currentHash = ((currentHash << 1) & mask) | (s.charAt(i) - '0');
+            
+            // 2. Only start checking once we've seen at least K characters
+            if (i >= k - 1) {
+                if (!found[currentHash]) {
+                    found[currentHash] = true;
+                    count++;
+                    // Optimization: If we found them all, stop early
+                    if (count == totalNeeded) return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+}
