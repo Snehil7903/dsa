@@ -1,0 +1,47 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class RecursiveSort {
+
+    public static void main(String[] args) {
+        // Initializing the list
+        ArrayList<Integer> v = new ArrayList<>(Arrays.asList(5, 2, 8, 1, 3));
+        
+        sort(v);
+        
+        System.out.println(v); // Output: [1, 2, 3, 5, 8]
+    }
+
+    public static void sort(ArrayList<Integer> v) {
+        // Base case: a list with one element is already sorted
+        if (v.size() <= 1) {
+            return;
+        }
+
+        // Hold the last element and remove it
+        int temp = v.remove(v.size() - 1);
+
+        // Recursively sort the remaining list
+        sort(v);
+
+        // Insert the held element back into its correct position
+        insert(v, temp);
+    }
+
+    public static void insert(ArrayList<Integer> v, int temp) {
+        // Base case: list is empty or temp is greater than the last element
+        if (v.size() == 0 || v.get(v.size() - 1) <= temp) {
+            v.add(temp);
+            return;
+        }
+
+        // Remove the last element if it's bigger than temp
+        int val = v.remove(v.size() - 1);
+
+        // Recursive call to find the right spot
+        insert(v, temp);
+
+        // Push the larger element back on after temp is inserted
+        v.add(val);
+    }
+}
