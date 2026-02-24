@@ -1,0 +1,52 @@
+import java.util.Stack;
+
+public class StackSort {
+
+    public static void main(String[] args) {
+        Stack<Integer> s = new Stack<>();
+        s.push(30);
+        s.push(-5);
+        s.push(18);
+        s.push(14);
+        s.push(-3);
+
+        System.out.println("Original Stack: " + s);
+        sortStack(s);
+        System.out.println("Sorted Stack:   " + s);
+    }
+
+    // Main recursive function to sort the stack
+    public static void sortStack(Stack<Integer> s) {
+        // Base case: if stack is empty, return
+        if (s.isEmpty()) {
+            return;
+        }
+
+        // Remove the top element
+        int temp = s.pop();
+
+        // Sort the remaining stack
+        sortStack(s);
+
+        // Push the popped element back in its correct sorted position
+        sortedInsert(s, temp);
+    }
+
+    // Helper function to insert element in sorted order
+    public static void sortedInsert(Stack<Integer> s, int temp) {
+        // Base case: stack is empty or temp is greater than the top element
+        if (s.isEmpty() || temp > s.peek()) {
+            s.push(temp);
+            return;
+        }
+
+        // If top is greater, remove the top element
+        int val = s.pop();
+
+        // Recur for the remaining stack
+        sortedInsert(s, temp);
+
+        // Put the top element back in
+        s.push(val);
+    }
+}
