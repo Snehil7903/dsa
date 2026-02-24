@@ -1,0 +1,32 @@
+class Solution {
+    // 1. GLOBAL VARIABLE: Stores the "Big Picture" answer
+    int res = Integer.MIN_VALUE; 
+
+    public int mainFunction(TreeNode root) {
+        solve(root);
+        return res;
+    }
+
+    int solve(TreeNode root) {
+        // 2. BASE CASE: Usually 0 or -1 depending on the problem
+        if (root == null) return 0;
+
+        // 3. RECURSION: Get results from children
+        int l = solve(root.left);
+        int r = solve(root.right);
+
+        // 4. TEMP (The "Pass-Up" value): 
+        // Best path that can continue to the parent node.
+        int temp = calculateTemp(l, r, root.val);
+
+        // 5. ANS (The "Turning Point"): 
+        // Best path if this node is the highest point (connects L + R).
+        int ans = calculateAns(temp, l, r, root.val);
+
+        // 6. UPDATE GLOBAL: Check if this local 'ans' is the best overall
+        res = Math.max(res, ans);
+
+        // 7. RETURN TEMP: Give the "Pass-Up" value to the parent
+        return temp;
+    }
+}
