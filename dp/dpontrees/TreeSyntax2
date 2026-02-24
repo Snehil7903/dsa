@@ -31,8 +31,9 @@ class Solution {
 
 
 class Solution {
+    int result=0;
     public int topDownMain(TreeNode root) {
-        return solve(root, 0);
+        return solve(root, result);
     }
 
     int solve(TreeNode root, int currentVal) {
