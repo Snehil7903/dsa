@@ -1,0 +1,56 @@
+class Solution {
+    int totalRes = 0; // The global bucket
+
+    public int topDownMain(TreeNode root) {
+        totalRes = 0; // Crucial: Reset for every new test case
+        solve(root, 0);
+        return totalRes;
+    }
+
+    void solve(TreeNode root, int currentVal) {
+        if (root == null) return;
+
+        // 1. UPDATE: Build value moving down
+        // Binary: (currentVal << 1) | root.val
+        // Decimal: (currentVal * 10) + root.val
+        currentVal = (currentVal << 1) | root.val;
+
+        // 2. LEAF CHECK: Drop value into the bucket
+        if (root.left == null && root.right == null) {
+            totalRes += currentVal;
+            return;
+        }
+
+        // 3. RECURSE
+        solve(root.left, currentVal);
+        solve(root.right, currentVal);
+    }
+}
+
+
+
+
+class Solution {
+    public int topDownMain(TreeNode root) {
+        return solve(root, 0);
+    }
+
+    int solve(TreeNode root, int currentVal) {
+        // Base Case: If we go past a leaf, it contributes nothing to the sum
+        if (root == null) return 0;
+
+        // 1. UPDATE: Build value moving down
+        currentVal = (currentVal << 1) | root.val;
+
+        // 2. LEAF CHECK: Return the finished path value
+        if (root.left == null && root.right == null) {
+            return currentVal;
+        }
+
+        // 3. RECURSE & COMBINE: Add results from both sides
+        int leftSum = solve(root.left, currentVal);
+        int rightSum = solve(root.right, currentVal);
+        
+        return leftSum + rightSum;
+    }
+}
