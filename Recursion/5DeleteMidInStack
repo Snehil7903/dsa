@@ -1,0 +1,35 @@
+import java.util.Stack;
+
+public class StackOps {
+
+    public Stack<Integer> midDel(Stack<Integer> stack, int size) {
+        // Handle empty stack case
+        if (stack.isEmpty()) {
+            return stack;
+        }
+
+        // Calculate middle position (k)
+        // For size 5, k = 3. For size 4, k = 3.
+        int k = size / 2 + 1;
+        
+        solve(stack, k);
+        return stack;
+    }
+
+    private void solve(Stack<Integer> stack, int k) {
+        // Base Case: We reached the middle element
+        if (k == 1) {
+            stack.pop(); // Delete it
+            return;
+        }
+
+        // Step 1: Hold the top element
+        int temp = stack.pop();
+
+        // Step 2: Recurse to find the next k-1 element
+        solve(stack, k - 1);
+
+        // Step 3: Push the held element back on top
+        stack.push(temp);
+    }
+}
