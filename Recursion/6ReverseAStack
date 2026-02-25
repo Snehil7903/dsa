@@ -1,0 +1,49 @@
+import java.util.Stack;
+
+public class StackReversal {
+
+    public static void main(String[] args) {
+        Stack<Integer> s = new Stack<>();
+        s.push(1);
+        s.push(2);
+        s.push(3);
+        s.push(4);
+        
+        System.out.println("Original: " + s); // [1, 2, 3, 4]
+        reverse(s);
+        System.out.println("Reversed: " + s); // [4, 3, 2, 1]
+    }
+
+    // Main function to reverse the stack
+    public static void reverse(Stack<Integer> s) {
+        // Base case: an empty stack is already reversed
+        if (s.isEmpty()) {
+            return;
+        }
+
+        // Pop the top element and hold it
+        int temp = s.pop();
+
+        // Recursively reverse the remaining stack
+        reverse(s);
+
+        // Insert the held element at the very bottom
+        insertAtBottom(s, temp);
+    }
+
+    // Helper function to push an element to the bottom
+    public static void insertAtBottom(Stack<Integer> s, int ele) {
+        // Base case: if stack is empty, this is the bottom
+        if (s.isEmpty()) {
+            s.push(ele);
+            return;
+        }
+
+        // Pop everything to get to the bottom
+        int temp = s.pop();
+        insertAtBottom(s, ele);
+
+        // Push everything back on top of the new bottom element
+        s.push(temp);
+    }
+}
