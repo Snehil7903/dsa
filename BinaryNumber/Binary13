@@ -1,0 +1,52 @@
+3666. Minimum Operations to Equalize Binary String
+
+class Solution {
+    public int minOperations(String s, int k) {
+        int n = s.length();
+        int initialZeros = 0;
+        for (char c : s.toCharArray()) if (c == '0') initialZeros++;
+
+        if (initialZeros == 0) return 0;
+
+        // Use two TreeSet to store unvisited 'zero counts' by parity.
+        // Flipped zeros (cur + k - 2x) always maintains the same parity as (cur + k).
+        TreeSet<Integer>[] unvisited = new TreeSet[2];
+        unvisited[0] = new TreeSet<>();
+        unvisited[1] = new TreeSet<>();
+        for (int i = 0; i <= n; i++) unvisited[i % 2].add(i);
+
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(initialZeros);
+        unvisited[initialZeros % 2].remove(initialZeros);
+
+        int steps = 0;
+        while (!queue.isEmpty()) {
+            steps++;
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int cur = queue.poll();
+
+                // Range of zeros we can reach after one flip of k bits
+                int minX = Math.max(0, k - (n - cur));
+                int maxX = Math.min(k, cur);
+                
+                // Possible next number of zeros: [cur + k - 2*maxX, cur + k - 2*minX]
+                int left = cur + k - 2 * maxX;
+                int right = cur + k - 2 * minX;
+
+                if (left <= 0 && 0 <= right && (cur + k) % 2 == 0) return steps;
+
+                TreeSet<Integer> set = unvisited[(cur + k) % 2];
+                Integer next = set.ceiling(left);
+                while (next != null && next <= right) {
+                    if (next == 0) return steps;
+                    queue.offer(next);
+                    set.remove(next); // Mark as visited
+                    next = set.ceiling(left);
+                }
+            }
+        }
+
+        return -1;
+    }
+}
