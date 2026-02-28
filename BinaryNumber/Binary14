@@ -1,0 +1,24 @@
+1680. Concatenation of Consecutive Binary Numbers
+
+class Solution {
+    public int concatenatedBinary(int n) {
+        final int MOD = 1_000_000_007;
+        long result = 0;
+        int bitLength = 0;
+
+        for (int i = 1; i <= n; i++) {
+            // Whenever 'i' is a power of 2, the binary length increases by 1
+            // e.g., 2 (10), 4 (100), 8 (1000)...
+            if ((i & (i - 1)) == 0) {
+                bitLength++;
+            }
+
+            // 1. Shift the existing result to the left by the current bitLength
+            // 2. OR it with 'i' to append the new bits
+            // 3. Modulo to prevent overflow
+            result = ((result << bitLength) | i) % MOD;
+        }
+
+        return (int) result;
+    }
+}
