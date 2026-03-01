@@ -1,0 +1,19 @@
+1689. Partitioning Into Minimum Number Of Deci-Binary Numbers
+
+
+class Solution {
+    public int minPartitions(String n) {
+        int maxDigit = 0;
+        for (int i = 0; i < n.length(); i++) {
+            // Convert char to int
+            int digit = n.charAt(i) - '0';
+            // Update max
+            if (digit > maxDigit) {
+                maxDigit = digit;
+            }
+            // Optimization: If we hit '9', we can't go higher, so just return
+            if (maxDigit == 9) return 9;
+        }
+        return maxDigit;
+    }
+}
