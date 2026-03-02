@@ -1,0 +1,37 @@
+1536. Minimum Swaps to Arrange a Binary Grid
+
+
+class Solution {
+    public int minSwaps(int[][] grid) {
+        int n = grid.length;
+        int ContinuousZerosPerRowFromRight[]= new int[n];
+        for(int i =0; i<n; i++){
+            int count =0;
+            for (int j = n - 1; j >= 0; j--) {
+                if (grid[i][j] == 0) count++;
+                else break;
+            }
+            ContinuousZerosPerRowFromRight[i]=count;
+        }
+        int totalSwaps=0;
+        for(int i=0; i<n; i++){
+            int minimumRequiredZeros=n-i-1;
+            int foundIdx=-1;
+            for(int j=i; j<n; j++){
+                if(ContinuousZerosPerRowFromRight[j]>=minimumRequiredZeros){
+                    foundIdx=j;
+                    break;
+                }
+            }
+            if (foundIdx == -1) return -1;
+            while(foundIdx>i){
+                int temp = ContinuousZerosPerRowFromRight[foundIdx];
+                ContinuousZerosPerRowFromRight[foundIdx]=ContinuousZerosPerRowFromRight[foundIdx-1];
+                ContinuousZerosPerRowFromRight[foundIdx-1]=temp;
+                totalSwaps++;
+                foundIdx--;
+            }
+        }
+        return totalSwaps;
+    }
+}
