@@ -1,5 +1,7 @@
 Input Output Technique
 In Java, we typically use an index pointer to avoid expensive string copying and erasing.
+Lc78
+Lc17
 
 class Solution {
     public void solve(String ip, String op, int index) {
