@@ -1,0 +1,46 @@
+Input Output Technique
+In Java, we typically use an index pointer to avoid expensive string copying and erasing.
+
+class Solution {
+    public void solve(String ip, String op, int index) {
+        // Base Case: We've made a decision for every character in the input
+        if (index == ip.length()) {
+            System.out.println("'" + op + "'");
+            return;
+        }
+
+        // Option 1: EXCLUDE the current character
+        // We just move to the next index without adding to op
+        solve(ip, op, index + 1);
+
+        // Option 2: INCLUDE the current character
+        // we create a new string adding the character at the current index
+        solve(ip, op + ip.charAt(index), index + 1);
+    }
+}
+
+
+
+
+Efficiency Tip: StringBuilder
+
+If the input string is very long, 
+using op + char creates many String objects, 
+which can be slow. 
+For competitive programming, 
+we often use a StringBuilder and backtracking:;
+
+public void solve(String ip, StringBuilder op, int index) {
+    if (index == ip.length()) {
+        System.out.println(op.toString());
+        return;
+    }
+
+    // Exclude
+    solve(ip, op, index + 1);
+
+    // Include
+    op.append(ip.charAt(index)); // Action
+    solve(ip, op, index + 1);    // Recurse
+    op.deleteCharAt(op.length() - 1); // Backtrack (Undo Action)
+}
