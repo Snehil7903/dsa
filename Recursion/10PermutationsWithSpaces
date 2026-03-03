@@ -1,0 +1,37 @@
+Lc 784
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        String input = "ABC";
+        
+        // The first character is always fixed (no space before it)
+        String op = "" + input.charAt(0);
+        
+        // Start recursion from the rest of the string
+        String ip = input.substring(1);
+        
+        solve(ip, op);
+    }
+
+    static void solve(String ip, String op) {
+        // Base Case: No more input characters left to process
+        if (ip.length() == 0) {
+            System.out.println(op);
+            return;
+        }
+
+        // Decision 1: Include a space before the next character
+        String op1 = op + "_" + ip.charAt(0);
+        
+        // Decision 2: Do NOT include a space (just add the character)
+        String op2 = op + ip.charAt(0);
+
+        // Shrink the input for the next recursive call
+        String nextIp = ip.substring(1);
+
+        solve(nextIp, op1);
+        solve(nextIp, op2);
+    }
+}
