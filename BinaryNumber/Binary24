@@ -1,0 +1,30 @@
+1009. Complement of Base 10 Integer
+
+class Solution {
+    public int bitwiseComplement(int n) {
+        if (n == 0) return 1;
+        String binaryString = Integer.toBinaryString(n);
+        int length = binaryString.length();
+        int sum = 1;
+        for(int i = length-1; i>0; i--){
+            sum = sum <<1;
+            sum = sum | 1;
+        }
+        return sum-n;
+
+    }
+}
+
+class Solution {
+    public int bitwiseComplement(int n) {
+        if (n == 0) return 1;
+        int sum = 0;
+        int temp =n;
+        while(temp>0){
+            sum = (sum <<1) | 1;
+            temp>>=1;
+        }
+        return n^sum;
+
+    }
+}
