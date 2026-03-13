@@ -1,0 +1,15 @@
+458. Poor Pigs
+
+
+class Solution {
+    public int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
+        int states = (minutesToTest / minutesToDie) + 1;
+        int pigs = 0;
+        long maxBucketsTested = 1;
+        while (maxBucketsTested < buckets) {
+            maxBucketsTested *= states;
+            pigs++;
+        }
+        return pigs;
+    }
+}
