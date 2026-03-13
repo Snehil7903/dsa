@@ -1,5 +1,32 @@
 Allocate Books (GeeksForGeeks) / Split Array Largest Sum (LC 410)
 
+
+Template:-
+public long solve(int[] data, int constraint) {
+    long low = MIN_POSSIBLE_VALUE; // Often 0 or 1
+    long high = MAX_POSSIBLE_VALUE; // Often Sum of array or a large 10^18
+    long ans = high;
+
+    while (low <= high) {
+        long mid = low + (high - low) / 2;
+
+        if (check(mid, data, constraint)) {
+            ans = mid;      // Mid is a candidate...
+            high = mid - 1; // ...but let's see if we can go LOWER
+        } else {
+            low = mid + 1;  // Not enough, must go HIGHER
+        }
+    }
+    return ans;
+}
+
+private boolean check(long mid, int[] data, int constraint) {
+    // 1. If Sequential (Books/Koko): Can we finish under limit 'mid'?
+    // 2. If Simultaneous (Mountain): How much work is done in time 'mid'?
+    // 3. Return true/false.
+}
+
+
 class Solution {
     public int splitArray(int[] nums, int k) {
         int low = 0, high = 0;
