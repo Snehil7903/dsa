@@ -1,0 +1,27 @@
+Koko Eating Bananas (LC 875)
+
+class Solution {
+    public int minEatingSpeed(int[] piles, int h) {
+        int low = 1, high = 1_000_000_000;
+        int ans = high;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (canFinish(piles, h, mid)) {
+                ans = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+
+    private boolean canFinish(int[] piles, int h, int speed) {
+        long hoursNeeded = 0;
+        for (int p : piles) {
+            // Ceiling division: (p + speed - 1) / speed
+            hoursNeeded += (p + speed - 1) / speed;
+        }
+        return hoursNeeded <= h;
+    }
+}
