@@ -1,0 +1,50 @@
+1622. Fancy Sequence
+
+import java.util.ArrayList;
+import java.util.List;
+
+class Fancy {
+    private List<Long> list = new ArrayList<>();
+    private long mult = 1;
+    private long add = 0;
+    private static final long MOD = 1_000_000_007;
+
+    public Fancy() {}
+
+    public void append(int val) {
+        // We want: (mult * x + add) % MOD = val
+        // Solve for x: x = (val - add) * inv(mult) % MOD
+        long x = (val - add + MOD) % MOD;
+        x = (x * power(mult, MOD - 2)) % MOD;
+        list.add(x);
+    }
+
+    public void addAll(int inc) {
+        add = (add + inc) % MOD;
+    }
+
+    public void multAll(int m) {
+        mult = (mult * m) % MOD;
+        add = (add * m) % MOD;
+    }
+
+    public int getIndex(int idx) {
+        if (idx >= list.size()) return -1;
+        // Apply current global transformation to the stored 'x'
+        long ans = (list.get(idx) * mult) % MOD;
+        ans = (ans + add) % MOD;
+        return (int) ans;
+    }
+
+    // Binary Exponentiation for Modular Inverse
+    private long power(long a, long b) {
+        long res = 1;
+        a %= MOD;
+        while (b > 0) {
+            if (b % 2 == 1) res = (res * a) % MOD;
+            a = (a * a) % MOD;
+            b /= 2;
+        }
+        return res;
+    }
+}
