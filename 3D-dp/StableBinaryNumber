@@ -1,0 +1,66 @@
+3129. Find All Possible Stable Binary Arrays I
+
+
+class Solution {
+    long MOD = 1_000_000_007;
+
+    public int numberOfStableArrays(int zero, int one, int limit) {
+        Long[][][] memo = new Long[zero + 1][one + 1][2];
+        long ans = (solve(zero, one, 0, limit, memo) + solve(zero, one, 1, limit, memo)) % MOD;
+        return (int) ans;
+    }
+
+    private long solve(int z, int o, int last, int limit, Long[][][] memo) {
+        if (z == 0 && o == 0) return 1;
+        if (memo[z][o][last] != null) return memo[z][o][last];
+        long ans = 0;
+        if (last == 0) {
+            for (int i = 1; i <= Math.min(z, limit); i++) {
+                ans = (ans + solve(z - i, o, 1, limit, memo)) % MOD;
+            }
+        } else {
+            for (int i = 1; i <= Math.min(o, limit); i++) {
+                ans = (ans + solve(z, o - i, 0, limit, memo)) % MOD;
+            }
+        }
+        return memo[z][o][last] = ans;
+    }
+}
+
+
+3130. Find All Possible Stable Binary Arrays II
+
+
+
+class Solution {
+    public int numberOfStableArrays(int zero, int one, int limit) {
+        int MOD = 1_000_000_007;
+        long[][][] dp = new long[zero + 1][one + 1][2];
+
+        for (int i = 1; i <= Math.min(zero, limit); i++) dp[i][0][0] = 1;
+        for (int j = 1; j <= Math.min(one, limit); j++) dp[0][j][1] = 1;
+
+        for (int i = 1; i <= zero; i++) {
+            for (int j = 1; j <= one; j++) {
+                
+                dp[i][j][0] = (dp[i - 1][j][0] + dp[i - 1][j][1]) % MOD;
+                
+                if (i > limit) {
+                    long over0 = dp[i - limit - 1][j][1];
+
+                    dp[i][j][0] = (dp[i][j][0] - over0 + MOD) % MOD;
+                }
+
+                dp[i][j][1] = (dp[i][j - 1][0] + dp[i][j - 1][1]) % MOD;
+                
+                if (j > limit) {
+                    long over1 = dp[i][j - limit - 1][0];
+                    dp[i][j][1] = (dp[i][j - 1][1] + dp[i][j - 1][0] - over1 + MOD) % MOD;
+
+                }
+            }
+        }
+
+        return (int) ((dp[zero][one][0] + dp[zero][one][1]) % MOD);
+    }
+}
