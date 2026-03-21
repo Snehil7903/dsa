@@ -48,3 +48,59 @@ class Fancy {
         return res;
     }
 }
+
+
+
+In problems like Fancy Sequence or Stable Binary Arrays, the numbers grow exponentially.
+
+    2100 is a number with 31 digits.
+
+    A standard Java long can only hold about 19 digits (9×1018).
+
+    If we didn't use modulo, your results would overflow, turn into random negative numbers, and your logic would break.
+
+1. Why is the operation "varying"?
+
+It feels like it varies because we are applying Modular Arithmetic properties. Think of modulo like a Clock. If it is 10:00 and you add 4 hours, it becomes 2:00 (because 14(mod12)=2).
+
+Here are the four rules that dictate why the code looks "different" for each operation:
+A. Addition: The "Safety" Modulo
+(A+B)(modM)=((A(modM))+(B(modM)))(modM)
+
+    In Code: add = (add + inc) % MOD;
+
+    Why: We mod at the end to keep the sum small.
+
+B. Subtraction: The "Negative" Fix
+(A−B)(modM)=((A(modM))−(B(modM))+M)(modM)
+
+    In Code: (val - add + MOD) % MOD;
+
+    Why: In Java, -3 % 10 is -3. But in math, we want 7. By adding MOD before the final modulo, we ensure the result is always positive. This is why subtraction looks "extra."
+
+C. Multiplication: The "Overflow" Prevention
+(A×B)(modM)=((A(modM))×(B(modM)))(modM)
+
+    In Code: mult = (mult * m) % MOD;
+
+    Why: Even if mult and m are under 109, their product is 1018, which fits in a long. But if we didn't mod immediately, the next multiplication would overflow the long.
+
+D. Division: The "Inverse" Magic
+
+You cannot do (A / B) % M. It simply doesn't work.
+
+    Instead, we use the Modular Inverse: A×B−1(modM).
+
+    In Code: x * power(mult, MOD - 2)
+
+    Why: This is the most "varying" one. We use Fermat's Little Theorem (BM−2) to turn a division into a multiplication.
+
+2. Why 109+7?
+
+You see this specific number everywhere because:
+
+    It's Prime: Prime numbers make the "Division" (Modular Inverse) trick work perfectly.
+
+    It's Large: It's big enough that hash collisions are rare.
+
+    It Fits: Its square (109+7)2 is roughly 1018, which fits perfectly into a 64-bit long. This allows us to multiply two "modded" numbers without crashing.
