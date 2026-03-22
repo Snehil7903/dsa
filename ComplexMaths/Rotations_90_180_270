@@ -1,0 +1,51 @@
+1886. Determine Whether Matrix Can Be Obtained By Rotation
+
+
+class Solution {
+    public boolean findRotation(int[][] mat, int[][] target) {
+        // We only need to check 4 possible orientations (0, 90, 180, 270)
+        for (int i = 0; i < 4; i++) {
+            if (isEqual(mat, target)) return true;
+            rotate(mat);
+        }
+        return false;
+    }
+
+    // Helper to rotate the matrix 90 degrees clockwise in-place
+    private void rotate(int[][] mat) {
+        int n = mat.length;
+        
+        // Step 1: Transpose (swap elements over the diagonal)
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                int temp = mat[i][j];
+                mat[i][j] = mat[j][i];
+                mat[j][i] = temp;
+            }
+        }
+        
+        // Step 2: Reverse each row
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n / 2; j++) {
+                int temp = mat[i][j];
+                mat[i][j] = mat[i][n - 1 - j];
+                mat[i][n - 1 - j] = temp;
+            }
+        }
+    }
+
+    private boolean isEqual(int[][] a, int[][] b) {
+        int n = a.length;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (a[i][j] != b[i][j]) return false;
+            }
+        }
+        return true;
+    }
+}
+
+Rotation,Steps
+90° Clockwise,Transpose + Reverse Rows
+180°,Reverse Rows + Reverse Columns (or Rotate 90° twice)
+270° Clockwise,Transpose + Reverse Columns
