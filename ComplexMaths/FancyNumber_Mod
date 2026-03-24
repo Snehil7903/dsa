@@ -1,0 +1,207 @@
+1622. Fancy Sequence
+
+import java.util.ArrayList;
+import java.util.List;
+
+class Fancy {
+    private List<Long> list = new ArrayList<>();
+    private long mult = 1;
+    private long add = 0;
+    private static final long MOD = 1_000_000_007;
+
+    public Fancy() {}
+
+    public void append(int val) {
+        // We want: (mult * x + add) % MOD = val
+        // Solve for x: x = (val - add) * inv(mult) % MOD
+        long x = (val - add + MOD) % MOD;
+        x = (x * power(mult, MOD - 2)) % MOD;
+        list.add(x);
+    }
+
+    public void addAll(int inc) {
+        add = (add + inc) % MOD;
+    }
+
+    public void multAll(int m) {
+        mult = (mult * m) % MOD;
+        add = (add * m) % MOD;
+    }
+
+    public int getIndex(int idx) {
+        if (idx >= list.size()) return -1;
+        // Apply current global transformation to the stored 'x'
+        long ans = (list.get(idx) * mult) % MOD;
+        ans = (ans + add) % MOD;
+        return (int) ans;
+    }
+
+    // Binary Exponentiation for Modular Inverse
+    private long power(long a, long b) {
+        long res = 1;
+        a %= MOD;
+        while (b > 0) {
+            if (b % 2 == 1) res = (res * a) % MOD;
+            a = (a * a) % MOD;
+            b /= 2;
+        }
+        return res;
+    }
+}
+
+
+
+In problems like Fancy Sequence or Stable Binary Arrays, the numbers grow exponentially.
+
+    2100 is a number with 31 digits.
+
+    A standard Java long can only hold about 19 digits (9×1018).
+
+    If we didn't use modulo, your results would overflow, turn into random negative numbers, and your logic would break.
+
+1. Why is the operation "varying"?
+
+It feels like it varies because we are applying Modular Arithmetic properties. Think of modulo like a Clock. If it is 10:00 and you add 4 hours, it becomes 2:00 (because 14(mod12)=2).
+
+Here are the four rules that dictate why the code looks "different" for each operation:
+A. Addition: The "Safety" Modulo
+(A+B)(modM)=((A(modM))+(B(modM)))(modM)
+
+    In Code: add = (add + inc) % MOD;
+
+    Why: We mod at the end to keep the sum small.
+
+B. Subtraction: The "Negative" Fix
+(A−B)(modM)=((A(modM))−(B(modM))+M)(modM)
+
+    In Code: (val - add + MOD) % MOD;
+
+    Why: In Java, -3 % 10 is -3. But in math, we want 7. By adding MOD before the final modulo, we ensure the result is always positive. This is why subtraction looks "extra."
+
+C. Multiplication: The "Overflow" Prevention
+(A×B)(modM)=((A(modM))×(B(modM)))(modM)
+
+    In Code: mult = (mult * m) % MOD;
+
+    Why: Even if mult and m are under 109, their product is 1018, which fits in a long. But if we didn't mod immediately, the next multiplication would overflow the long.
+
+D. Division: The "Inverse" Magic
+
+You cannot do (A / B) % M. It simply doesn't work.
+
+    Instead, we use the Modular Inverse: A×B−1(modM).
+
+    In Code: x * power(mult, MOD - 2)
+
+    Why: This is the most "varying" one. We use Fermat's Little Theorem (BM−2) to turn a division into a multiplication.
+
+2. Why 109+7?
+
+You see this specific number everywhere because:
+
+    It's Prime: Prime numbers make the "Division" (Modular Inverse) trick work perfectly.
+
+    It's Large: It's big enough that hash collisions are rare.
+
+    It Fits: Its square (109+7)2 is roughly 1018, which fits perfectly into a 64-bit long. This allows us to multiply two "modded" numbers without crashing.
+
+
+3. The "Division" Mystery (The Hard Part)
+
+This is where you got stuck. In modular arithmetic, you cannot divide.
+
+In normal math: 10/2=5.
+In modular math (M=12): (10/2)(mod12) is not necessarily 5.
+
+To "divide," we find a Modular Inverse. An inverse of x is a number y such that x⋅y≡1(modM).
+
+    Think of it as "Reciprocal": In normal math, the inverse of 2 is 0.5 because 2×0.5=1.
+
+    In Modular Math: The inverse of 5(mod7) is 3 because 5×3=15, and 15(mod7)=1.
+
+Why did I say 12345 is "forbidden" for division?
+
+To have an inverse, a number x must not share any factors with M.
+
+    M=12345 has factors: 3, 5, 823.
+
+    If you try to divide by 15, you are in trouble. There is no number in existence that you can multiply by 15 to get 1(mod12345).
+
+    Why? Because 15×(anything) will always be a multiple of 3 and 5. But 1(mod12345) is a number like 1,12346,24691… none of which are multiples of 3 or 5.
+
+4. Summary: When to use what?
+Rule	Java Code	When to use
+Sum	(a + b) % MOD	"Total count", "Ways to reach"
+Diff	(a - b + MOD) % MOD	"Difference", "Remaining"
+Product	(a * b) % MOD	"Total combinations", "Product Matrix"
+Inverse	power(a, MOD-2)	ONLY if MOD is Prime!
+
+
+
+1. The Clock (Addition/Subtraction)
+
+You are 100% right. You can use any number as a modulo (12, 60, 12345) to tell time, add, or subtract.
+
+    If it’s 10:00 and you add 4 hours, it’s 2:00. This always works because you are just moving forward on the circle.
+
+    12 is not prime, but that doesn't stop us from adding or multiplying.
+
+2. The Problem is "Reversing" (Division)
+
+The "Prime" requirement only matters when you want to go backwards (divide).
+
+Imagine our 12-hour clock. I tell you:
+
+    "I multiplied my starting hour by 3, and now the clock shows 6:00. What hour did I start with?"
+
+In normal math, you'd say 6/3=2. But look at the clock:
+
+    If you start at 2: 2×3=6
+
+    If you start at 6: 6×3=18→6
+
+    If you start at 10: 10×3=30→6
+
+Because gcd(3,12)=3 (not 1), the number 3 "crushed" different starting points into the same result. You cannot "divide" by 3 because you don't know if you should end up at 2, 6, or 10. The information is lost.
+3. Why the Rhombus/Product Matrix Problem failed
+
+In the Product Matrix (LC 2906), the modulo is 12345.
+
+    Let's say your TotalProduct is 0.
+
+    You want to "divide" by some number X to find the product of all other elements.
+
+    If X=5, and we know 12345 is a multiple of 5...
+
+    Dividing 0/5(mod12345) is impossible. It could have been 2469,4938,7407… all of these, when multiplied by 5, result in 0(mod12345).
+
+This is why we say the "Inverse" doesn't exist. When the modulo isn't prime, multiplication isn't always "undoable."
+
+
+
+2906. Construct Product Matrix
+
+class Solution {
+    public int[][] constructProductMatrix(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int MOD = 12345;
+        int[][] p = new int[m][n];
+        long currentPrefix = 1;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                p[i][j] = (int) currentPrefix;
+                currentPrefix = (currentPrefix * (grid[i][j] % MOD)) % MOD;
+            }
+        }
+        long currentSuffix = 1;
+        for (int i = m - 1; i >= 0; i--) {
+            for (int j = n - 1; j >= 0; j--) {
+                p[i][j] = (int) ((p[i][j] * currentSuffix) % MOD);
+                currentSuffix = (currentSuffix * (grid[i][j] % MOD)) % MOD;
+            }
+        }
+
+        return p;
+    }
+}
