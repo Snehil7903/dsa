@@ -1,0 +1,28 @@
+2075. Decode the Slanted Ciphertext
+
+class Solution {
+    public String decodeCiphertext(String encodedText, int rows) {
+        int n = encodedText.length();
+        int cols = n / rows;
+        StringBuilder res = new StringBuilder();
+
+        for (int j = 0; j < cols; j++) {
+            int r = 0;
+            int c = j;
+            
+            while (r < rows && c < cols) {
+                int index = r * cols + c;
+                res.append(encodedText.charAt(index));
+                r++;
+                c++;
+            }
+        }
+
+        int last = res.length() - 1;
+        while (last >= 0 && res.charAt(last) == ' ') {
+            last--;
+        }
+
+        return res.substring(0, last + 1);
+    }
+}
