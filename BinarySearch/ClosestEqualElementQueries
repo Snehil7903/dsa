@@ -1,0 +1,29 @@
+LC3488. Closest Equal Element Queries
+
+class Solution {
+    public List<Integer> solveQueries(int[] nums, int[] queries) {
+        int n = nums.length;
+        int m = queries.length;
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            map.computeIfAbsent(nums[i], k -> new ArrayList<>()).add(i);
+        }
+        List<Integer> ans = new ArrayList<>(m); 
+        for (int i = 0; i < m; i++) {
+            int qIdx = queries[i];
+            int val = nums[qIdx];
+            List<Integer> indices = map.get(val);
+            if (indices.size() == 1) {
+                ans.add(-1);
+                continue;
+            }
+            int pos = Collections.binarySearch(indices, qIdx);
+            int prevIdx = indices.get((pos - 1 + indices.size()) % indices.size());
+            int nextIdx = indices.get((pos + 1) % indices.size());
+            int distPrev = (qIdx - prevIdx + n) % n;
+            int distNext = (nextIdx - qIdx + n) % n;
+            ans.add(Math.min(distPrev, distNext));
+        }
+        return ans;
+    }
+}
