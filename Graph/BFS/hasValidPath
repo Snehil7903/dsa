@@ -1,0 +1,54 @@
+1391. Check if There is a Valid Path in a Grid
+
+class Solution {
+    int[][] dirs = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+    int[][][] pipe = {
+        {},
+        {{0, 1}, {0, -1}}, 
+        {{-1, 0}, {1, 0}}, 
+        {{0, -1}, {1, 0}},
+        {{0, 1}, {1, 0}},  
+        {{0, -1}, {-1, 0}},
+        {{0, 1}, {-1, 0}} 
+    };
+
+    public boolean hasValidPath(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        boolean[][] visited = new boolean[m][n];
+        Queue<int[]> q = new LinkedList<>();
+        
+        q.offer(new int[]{0, 0});
+        visited[0][0] = true;
+
+        while (!q.isEmpty()) {
+            int[] curr = q.poll();
+            int r = curr[0], c = curr[1];
+            
+            if (r == m - 1 && c == n - 1) return true;
+
+            int streetType = grid[r][c];
+            for (int[] move : pipe[streetType]) {
+                int nr = r + move[0];
+                int nc = c + move[1];
+
+                if (nr >= 0 && nr < m && nc >= 0 && nc < n && !visited[nr][nc]) {
+                    if (canConnect(nr, nc, r, c, grid)) {
+                        visited[nr][nc] = true;
+                        q.offer(new int[]{nr, nc});
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean canConnect(int nr, int nc, int pr, int pc, int[][] grid) {
+        int neighborType = grid[nr][nc];
+        for (int[] move : pipe[neighborType]) {
+            if (nr + move[0] == pr && nc + move[1] == pc) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
