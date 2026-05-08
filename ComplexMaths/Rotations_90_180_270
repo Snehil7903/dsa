@@ -49,3 +49,54 @@ Rotation,Steps
 90° Clockwise,Transpose + Reverse Rows
 180°,Reverse Rows + Reverse Columns (or Rotate 90° twice)
 270° Clockwise,Transpose + Reverse Columns
+
+
+
+
+The "other" method for rotating a matrix is what I call the Direct Mapping or Index Transformation method.
+
+Instead of doing two steps (transpose then reverse), you use a single formula to map every element from its old position (i,j) directly to its new position.
+1. The 90° Clockwise Formula
+
+If you rotate a square matrix of size n×n by 90° clockwise:
+
+    The old row i becomes the new column (n−1−i).
+
+    The old column j becomes the new row j.
+
+Formula: New[j][n−1−i]=Old[i][j]
+
+class Solution {
+    public boolean findRotation(int[][] mat, int[][] target) {
+        int n = mat.length;
+        
+        // Check 4 rotations: 0, 90, 180, 270
+        for (int r = 0; r < 4; r++) {
+            if (isEqual(mat, target)) return true;
+            mat = rotate90(mat); // Update mat to the new rotated version
+        }
+        return false;
+    }
+
+    private int[][] rotate90(int[][] mat) {
+        int n = mat.length;
+        int[][] res = new int[n][n];
+        
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                // The mapping logic
+                res[j][n - 1 - i] = mat[i][j];
+            }
+        }
+        return res;
+    }
+
+    private boolean isEqual(int[][] a, int[][] b) {
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < a.length; j++) {
+                if (a[i][j] != b[i][j]) return false;
+            }
+        }
+        return true;
+    }
+}
