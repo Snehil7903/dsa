@@ -1,0 +1,42 @@
+33. Search in Rotated Sorted Array
+
+
+
+class Solution {
+    public int search(int[] nums, int target) {
+        int n = nums.length;
+        if (n == 0) return -1;
+        int breakPoint = findMinIndex(nums);
+        int indexInFirstPart = binarySearch(nums, 0, breakPoint - 1, target);
+        if (indexInFirstPart != -1) return indexInFirstPart;
+        int indexInSecondPart = binarySearch(nums, breakPoint, n - 1, target);
+        return indexInSecondPart;
+    }
+    public int findMinIndex(int[] nums) {
+        int start = 0;
+        int end = nums.length - 1;
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (nums[mid] > nums[end]) {
+                start = mid + 1;
+            } else {
+                end = mid;
+            }
+        }
+        return start;
+    }
+
+    private int binarySearch(int[] arr, int start, int end, int ele) {
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (ele == arr[mid]) {
+                return mid;
+            } else if (ele < arr[mid]) {
+                end = mid - 1;
+            } else {
+                start = mid + 1;
+            }
+        } 
+        return -1;
+    }
+}
