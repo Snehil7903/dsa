@@ -1,0 +1,39 @@
+1871. Jump Game VII
+
+
+class Solution {
+    public boolean canReach(String s, int minJump, int maxJump) {
+        int n = s.length();
+        
+        // Quick optimization: If the last character is '1', we can never land on it.
+        if (s.charAt(n - 1) == '1') {
+            return false;
+        }
+
+        boolean[] dp = new boolean[n];
+        dp[0] = true; 
+        
+        // This tracks how many reachable indices exist in our valid jump window
+        int reachableInWindow = 0; 
+        
+        for (int i = 1; i < n; i++) {
+            // 1. Add the start of the new window to our count (if it was reachable)
+            if (i >= minJump && dp[i - minJump]) {
+                reachableInWindow++;
+            }
+            
+            // 2. Remove the index that just fell out of the back of our window
+            if (i > maxJump && dp[i - maxJump - 1]) {
+                reachableInWindow--;
+            }
+            
+            // 3. If our current char is '0' AND there is at least 1 reachable 
+            //    index in our window, then we can reach the current index!
+            if (reachableInWindow > 0 && s.charAt(i) == '0') {
+                dp[i] = true;
+            }
+        }
+        
+        return dp[n - 1];
+    }
+}
