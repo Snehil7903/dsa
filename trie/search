@@ -1,0 +1,44 @@
+public boolean search(String word) {
+
+    TrieNode curr = root;
+
+    for(char ch : word.toCharArray()) {
+
+        int idx = ch - 'a';
+
+        if(curr.children[idx] == null) {
+            return false;
+        }
+
+        curr = curr.children[idx];
+    }
+
+    return curr.isEnd;
+}
+
+
+Algorithm:
+
+For every character:
+
+move
+
+If node missing:
+
+false
+
+After loop:
+
+check isEnd
+
+public boolean search(String word){
+    TrieNode curr = root;
+    for(char ch: word.toCharArray()){
+        int idx = ch-'a';
+        if(curr.children[idx]==null){
+            return false;
+        }
+        curr = curr.children[idx];
+    }
+    return curr.endOfWord;
+}

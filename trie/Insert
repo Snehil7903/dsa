@@ -1,0 +1,57 @@
+public void insert(String word) {
+
+    TrieNode curr = root;
+
+    for(char ch : word.toCharArray()) {
+
+        int idx = ch - 'a';
+
+        if(curr.children[idx] == null) {
+            curr.children[idx] = new TrieNode();
+        }
+
+        curr = curr.children[idx];
+    }
+
+    curr.isEnd = true;
+}
+
+Insert Operation
+
+Insert:cat
+
+Process:
+
+root
+ |
+ c
+ |
+ a
+ |
+ t
+
+Mark t as end.
+
+Algorithm
+
+For each character:
+
+1. Find index
+2. If node absent create
+3. Move ahead
+
+Finally:
+
+isEnd = true
+
+public void insert(String word){
+    TreeNode curr = root;
+    for(char ch: word.toCharArray()){
+        int idx = ch-'a';
+        if(curr.children[idx]==null){
+            curr.children[idx] = new TreeNode();
+        }
+        curr = curr.children[idx];
+    }
+    curr.endOfWord=true;
+}

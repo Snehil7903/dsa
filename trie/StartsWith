@@ -1,0 +1,23 @@
+public boolean search(String word) {
+
+    TrieNode curr = root;
+
+    for(char ch : word.toCharArray()) {
+
+        int idx = ch - 'a';
+
+        if(curr.children[idx] == null) {
+            return false;
+        }
+
+        curr = curr.children[idx];
+    }
+
+    return curr.isEnd;
+}
+
+Algorithm:
+
+Same as search.
+
+No need to check end flag.

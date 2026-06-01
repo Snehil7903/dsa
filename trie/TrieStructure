@@ -1,0 +1,37 @@
+Trie Node Structure
+
+Each node stores:
+
+children
+endOfWord flag
+
+
+class TrieNode{
+    TrieNode[] children;
+    boolean endOfWord;
+    public TrieNode(){
+        children = new TrieNode[26];
+        endOfWord = false;
+    }
+}
+
+Why 26?
+
+a-z
+
+Index:
+
+a -> 0
+b -> 1
+c -> 2
+...
+z -> 25
+
+Formula:
+
+int index = ch - 'a';
+
+Example:
+
+'c' - 'a'
+= 2
