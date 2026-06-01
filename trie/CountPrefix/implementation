@@ -1,0 +1,70 @@
+public int countWordsStartingWith(String prefix) {
+
+    TrieNode curr = root;
+
+    for(char ch : prefix.toCharArray()) {
+
+        int idx = ch - 'a';
+
+        if(curr.children[idx] == null)
+            return 0;
+
+        curr = curr.children[idx];
+    }
+
+    return curr.prefixCount;
+}
+Example:
+
+Inserted:
+apple
+app
+application
+apply
+bat
+
+Query:
+countWordsStartingWith("app")
+
+Answer:
+New Variable
+Each node stores:
+int prefixCount;
+
+Meaning:
+How many words pass through this node?
+
+Insert
+Every time we move:
+
+curr = curr.children[idx];
+curr.prefixCount++;
+
+Example
+Insert:
+apple
+app
+application
+
+Node:a
+prefixCount = 3
+because 3 words pass through it.
+
+
+Query
+public int countWordsStartingWith(String prefix) {
+
+    TrieNode curr = root;
+
+    for(char ch : prefix.toCharArray()) {
+
+        int idx = ch - 'a';
+
+        if(curr.children[idx] == null)
+            return 0;
+
+        curr = curr.children[idx];
+    }
+
+    return curr.prefixCount;
+}
