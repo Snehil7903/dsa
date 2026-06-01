@@ -1,0 +1,73 @@
+public int countWordsEqualTo(String word) {
+
+    TrieNode curr = root;
+
+    for(char ch : word.toCharArray()) {
+
+        int idx = ch - 'a';
+
+        if(curr.children[idx] == null)
+            return 0;
+
+        curr = curr.children[idx];
+    }
+
+    return curr.endCount;
+}
+
+Suppose we insert:
+apple
+apple
+app
+app
+app
+countWordsEqualTo("apple") = 2
+countWordsEqualTo("app") = 3
+
+Our previous Trie only stored:
+boolean isEnd;
+That only tells:
+Present or Not Present
+But we need frequency
+
+Modification
+Instead of:
+boolean isEnd;
+Store:
+int endCount;
+Meaning:
+How many words end here?
+
+class TrieNode {
+
+    TrieNode[] children = new TrieNode[26];
+
+    int endCount;
+}
+
+Insert
+After reaching last node:
+curr.endCount++;
+
+Example:
+Insert apple twice.
+endCount = 
+Count Equal
+public int countWordsEqualTo(String word) {
+
+    TrieNode curr = root;
+
+    for(char ch : word.toCharArray()) {
+
+        int idx = ch - 'a';
+
+        if(curr.children[idx] == null)
+            return 0;
+
+        curr = curr.children[idx];
+    }
+
+    return curr.endCount;
+}
+
+Complexity O(length)
