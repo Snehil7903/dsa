@@ -1,0 +1,52 @@
+public void erase(String word) {
+    TrieNode curr = root;
+    for(char ch : word.toCharArray()) {
+        int idx = ch - 'a';
+        curr = curr.children[idx];
+        curr.prefixCount--;
+    }
+    curr.endCount--;
+}
+Suppose:
+apple
+apple
+app
+
+Current counts:
+apple = 2
+app = 1
+Erase:
+apple
+Now:
+apple = 1
+app = 1
+
+Idea
+While traversing:
+prefixCount--
+At Last node:
+endCount--
+
+Implementation
+public void erase(String word) {
+
+    TrieNode curr = root;
+
+    for(char ch : word.toCharArray()) {
+
+        int idx = ch - 'a';
+
+        curr = curr.children[idx];
+
+        curr.prefixCount--;
+    }
+
+    curr.endCount--;
+}
+
+What if word doesn't exist?
+
+Answer:
+First search.
+Then erase.
+Or maintain constraints that erase is valid.
