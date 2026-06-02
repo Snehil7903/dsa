@@ -1,0 +1,92 @@
+Words:
+flower
+flow
+flight
+
+Answer:
+fl
+
+Trie Observation
+Walk down until:
+1 child only
+AND
+not end of Word
+
+Complexity
+O(total characters)
+
+
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class LongestCommonPrefixTrie {
+
+    // Represents an individual node in the Trie structure
+    static class TrieNode {
+        Map<Character, TrieNode> children = new HashMap<>();
+        boolean isEndOfWord = false;
+        int childCount = 0; // Tracks the number of unique children out of this node
+    }
+
+    private final TrieNode root;
+
+    public LongestCommonPrefixTrie() {
+        root = new TrieNode();
+    }
+
+    // Inserts a word character by character into the Trie
+    public void insert(String word) {
+        if (word == null || word.isEmpty()) return;
+        
+        TrieNode current = root;
+        for (char ch : word.toCharArray()) {
+            // Compute if absent prevents overwriting an existing prefix branch
+            if (!current.children.containsKey(ch)) {
+                current.children.put(ch, new TrieNode());
+                current.childCount++;
+            }
+            current = current.children.get(ch);
+        }
+        current.isEndOfWord = true;
+    }
+
+    // Traverses the Trie to extract the longest shared common prefix sequence
+    public String findLCP(String[] words) {
+        if (words == null || words.length == 0) return "";
+        if (words.length == 1) return words[0];
+
+        // 1. Build the Trie using the entire array pool
+        for (String word : words) {
+            // If any string is completely empty, the global common prefix is instantly empty
+            if (word.isEmpty()) return "";
+            insert(word);
+        }
+
+        // 2. Perform a walk starting from the root node
+        StringBuilder lcp = new StringBuilder();
+        TrieNode current = root;
+
+        // Traverse down while there is exactly 1 distinct split pathway 
+        // AND we haven't hit the completed marker of the shortest string
+        while (current.childCount == 1 && !current.isEndOfWord) {
+            // Extract the solitary character choice available
+            char nextChar = current.children.keySet().iterator().next();
+            lcp.append(nextChar);
+            current = current.children.get(nextChar);
+        }
+
+        return lcp.toString();
+    }
+
+    // Driver method to validate functionality
+    public static void main(String[] args) {
+        LongestCommonPrefixTrie solver = new LongestCommonPrefixTrie();
+        
+        String[] sampleStrings = {"geeksforgeeks", "geeks", "geek", "geezer"};
+        String result = solver.findLCP(sampleStrings);
+        
+        System.out.println("The Longest Common Prefix is: \"" + result + "\"");
+        // Output: "gee"
+    }
+}
