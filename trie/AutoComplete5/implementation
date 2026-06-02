@@ -1,0 +1,32 @@
+Input:
+ca
+
+Need:
+cat
+car
+care
+card
+camera
+
+Step 1: Reach Node of ca
+Step 2: From Node of ca, find all words starting with ca i.e. DFS all descendants of ca
+
+void dfs(TrieNode node,
+         StringBuilder path,
+         List<String> ans)
+{
+    if(node.endCount > 0)
+        ans.add(path.toString());
+
+    for(int i=0;i<26;i++)
+    {
+        if(node.children[i] != null)
+        {
+            path.append((char)(i+'a'));
+
+            dfs(node.children[i], path, ans);
+
+            path.deleteCharAt(path.length()-1);
+        }
+    }
+}
