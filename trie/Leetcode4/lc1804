@@ -4,132 +4,73 @@ countWordsEqualTo(word)
 countWordsStartingWith(prefix)
 erase(word)
 
-Node Structure:
+
 class TrieNode {
+
     TrieNode[] children = new TrieNode[26];
+
     int endCount;
     int prefixCount;
 }
 
-class Trie {
-    // Array to store child nodes for each letter (a-z)
-    private Trie[] children;
+private TrieNode findNode(String s) {
 
-    // Count of words ending at this node
-    private int wordCount;
+    TrieNode current = root;
 
-    // Count of words passing through this node (prefix count)
-    private int prefixCount;
+    for(char c : s.toCharArray()) {
 
-    /**
-     * Initialize the Trie data structure
-     */
-    public Trie() {
-        this.children = new Trie[26];
-        this.wordCount = 0;
-        this.prefixCount = 0;
+        int idx = c - 'a';
+
+        if(current.children[idx] == null)
+            return null;
+
+        current = current.children[idx];
     }
 
-    /**
-     * Insert a word into the Trie
-     * @param word The word to insert
-     */
-    public void insert(String word) {
-        Trie currentNode = this;
-
-        // Traverse through each character in the word
-        for (char ch : word.toCharArray()) {
-            int index = ch - 'a';
-
-            // Create new node if path doesn't exist
-            if (currentNode.children[index] == null) {
-                currentNode.children[index] = new Trie();
-            }
-
-            // Move to the child node
-            currentNode = currentNode.children[index];
-
-            // Increment prefix count for this node
-            currentNode.prefixCount++;
-        }
-
-        // Increment word count at the final node
-        currentNode.wordCount++;
-    }
-
-    /**
-     * Count the number of instances of a specific word in the Trie
-     * @param word The word to count
-     * @return Number of times the word appears
-     */
-    public int countWordsEqualTo(String word) {
-        Trie targetNode = search(word);
-        return targetNode == null ? 0 : targetNode.wordCount;
-    }
-
-    /**
-     * Count the number of words that start with the given prefix
-     * @param prefix The prefix to search for
-     * @return Number of words with the given prefix
-     */
-    public int countWordsStartingWith(String prefix) {
-        Trie targetNode = search(prefix);
-        return targetNode == null ? 0 : targetNode.prefixCount;
-    }
-
-    /**
-     * Remove one instance of a word from the Trie
-     * Assumes the word exists in the Trie
-     * @param word The word to remove
-     */
-    public void erase(String word) {
-        Trie currentNode = this;
-
-        // Traverse through each character in the word
-        for (char ch : word.toCharArray()) {
-            int index = ch - 'a';
-
-            // Move to the child node
-            currentNode = currentNode.children[index];
-
-            // Decrement prefix count for this node
-            currentNode.prefixCount--;
-        }
-
-        // Decrement word count at the final node
-        currentNode.wordCount--;
-    }
-
-    /**
-     * Helper method to search for a word/prefix in the Trie
-     * @param word The word or prefix to search for
-     * @return The node at the end of the word/prefix, or null if not found
-     */
-    private Trie search(String word) {
-        Trie currentNode = this;
-
-        // Traverse through each character in the word
-        for (char ch : word.toCharArray()) {
-            int index = ch - 'a';
-
-            // If path doesn't exist, return null
-            if (currentNode.children[index] == null) {
-                return null;
-            }
-
-            // Move to the child node
-            currentNode = currentNode.children[index];
-        }
-
-        return currentNode;
-    }
+    return current;
 }
 
-/**
- * Your Trie object will be instantiated and called as such:
- * Trie obj = new Trie();
- * obj.insert(word);
- * int param_2 = obj.countWordsEqualTo(word);
- * int param_3 = obj.countWordsStartingWith(prefix);
- * obj.erase(word);
- */
+public boolean search(String word) {
+
+    TrieNode node = findNode(word);
+
+    return node != null && node.endCount > 0;
+}
+
+public boolean startsWith(String prefix) {
+
+    return findNode(prefix) != null;
+}
+
+public int countWordsEqualTo(String word) {
+
+    TrieNode node = findNode(word);
+
+    return node == null ? 0 : node.endCount;
+}
+
+public int countWordsStartingWith(String prefix) {
+
+    TrieNode node = findNode(prefix);
+
+    return node == null ? 0 : node.prefixCount;
+}
+
+public void erase(String word) {
+
+    if(countWordsEqualTo(word) == 0)
+        return;
+
+    TrieNode current = root;
+
+    for(char c : word.toCharArray()) {
+
+        int idx = c - 'a';
+
+        current = current.children[idx];
+
+        current.prefixCount--;
+    }
+
+    current.endCount--;
+}
