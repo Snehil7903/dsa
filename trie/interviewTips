@@ -1,0 +1,44 @@
+Interview Recognition Signals
+
+If question contains:
+
+Strings:
+prefix
+dictionary
+autocomplete
+search suggestions
+contacts
+word search
+
+Think:
+TRIE
+
+Numbers:
+xor
+maximum xor
+binary bits
+pair xor
+offline xor query
+
+Think:
+
+BINARY TRIE
+
+
+Interview Thinking Process
+
+Whenever you see:
+
+Insert words
+Search words
+Prefix queries
+
+Immediately think:
+
+Trie
+
+Because:
+
+HashSet -> good for exact search
+
+Trie -> good for exact search + prefix search
