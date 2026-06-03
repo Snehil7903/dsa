@@ -1,0 +1,5 @@
+Normal Trie search is O(L) because there is only one path per character. 
+With wildcards, DFS may explore multiple children. 
+In the worst case, if every character is '.', the search becomes O(26^L).
+
+That's the theoretical worst case. In practice, it's usually much better because most Trie nodes don't have all 26 children, so many branches terminate immediately.
