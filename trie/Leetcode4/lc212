@@ -1,0 +1,56 @@
+class TrieNode{
+    TrieNode[] children = new TrieNode[26];
+    String word;
+}
+
+class Solution {
+    private TrieNode root;
+    private int[][] dirs = {{1,0},{-1,0},{0,1},{0,-1}};
+    public List<String> findWords(char[][] board, String[] words) {
+        root = new TrieNode();
+        for(String word: words){
+            addWord(word);
+        }
+        int row = board.length;
+        int col = board[0].length;
+        List<String> ans = new ArrayList<>();
+        
+        for(int i =0 ; i<row ; i++){
+            for(int j =0; j<col ; j++){
+                dfs(i,j,root,board,ans);
+            }
+        }
+        return ans;
+    }
+    private void addWord(String word) {
+        TrieNode current = root;
+        for(char ch : word.toCharArray()){
+            int idx = ch - 'a';
+            if(current.children[idx]==null){
+                current.children[idx] = new TrieNode();
+            }
+            current = current.children[idx];
+        }
+        current.word=word;
+    }
+
+    private void dfs(int r, int c,TrieNode node,char[][] board, List<String> ans){
+        if(r<0||c<0|| r>= board.length|| c>= board[0].length) return;
+        if(board[r][c]=='#') return;
+        char ch = board[r][c];
+        int idx = ch - 'a';
+        if(node.children[idx]==null) return;
+        TrieNode next = node.children[idx];
+        if(next.word!=null){
+            ans.add(next.word);
+            next.word = null;
+        }
+        board[r][c]='#';
+        for(int[] dir : dirs){
+            int nr = r + dir[0];
+            int nc = c + dir[1];
+            dfs(nr,nc,next,board,ans);
+        }
+        board[r][c] = ch;
+    }
+}
