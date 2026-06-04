@@ -1,0 +1,46 @@
+class Solution {
+    static class Node {
+        Node[] child = new Node[2];
+    }
+
+    private final Node root = new Node();
+
+    public int findMaximumXOR(int[] nums) {
+        for (int number : nums) {
+            insert(number);
+        }
+        
+        int globalMaxXor = 0;
+        
+        for (int num : nums) {
+            Node curr = root;
+            int currentMaxXor = 0;
+            
+            for (int i = 31; i >= 0; i--) {
+                int bit = (num >> i) & 1;
+                int opposite = 1 - bit;
+                if (curr.child[opposite] != null) {
+                    currentMaxXor |= (1 << i);
+                    curr = curr.child[opposite];
+                } else if (curr.child[bit] != null) {
+                    curr = curr.child[bit];
+                } else {
+                    break;
+                }
+            }
+            globalMaxXor = Math.max(globalMaxXor, currentMaxXor);
+        }
+        return globalMaxXor;
+    }
+
+    void insert(int num) {
+        Node curr = root;
+        for (int i = 31; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            if (curr.child[bit] == null) {
+                curr.child[bit] = new Node();
+            }
+            curr = curr.child[bit];
+        }
+    }
+}
