@@ -22,9 +22,11 @@ class Solution {
                 if (curr.child[opposite] != null) {
                     currentMaxXor |= (1 << i);
                     curr = curr.child[opposite];
-                } else if (curr.child[bit] != null) {
+                } 
+                else if (curr.child[bit] != null) {
                     curr = curr.child[bit];
-                } else {
+                } 
+                else {
                     break;
                 }
             }
