@@ -13,6 +13,24 @@ class TrieNode {
     int prefixCount;
 }
 
+private void insert(String word) {
+
+    TrieNode current = root;
+
+    for(char c : word.toCharArray()) {
+
+        int idx = c - 'a';
+
+        if(current.children[idx] == null)
+            current.children[idx] = new TrieNode();
+
+        current = current.children[idx];
+        current.prefixCount++;
+    }
+
+    current.endCount++;
+}
+
 private TrieNode findNode(String s) {
 
     TrieNode current = root;
