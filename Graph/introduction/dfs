@@ -1,0 +1,128 @@
+DFS Idea
+
+DFS means:
+
+Go as deep as possible before coming back.
+
+Think:
+
+0
+|
+2
+|
+3
+
+Go all the way down first.
+
+Need Visited Array
+
+Without it:
+
+0 -> 1 -> 0 -> 1 -> 0 ...
+
+Infinite loop.
+
+So:
+
+boolean[] visited = new boolean[n];
+
+DFS Template
+
+void dfs(int node,
+         List<List<Integer>> graph,
+         boolean[] visited)
+{
+    visited[node] = true;
+
+    System.out.print(node + " ");
+
+    for(int neighbor : graph.get(node))
+    {
+        if(!visited[neighbor])
+        {
+            dfs(neighbor,
+                graph,
+                visited);
+        }
+    }
+}
+
+Dry Run
+
+Start:
+
+dfs(0)
+
+Visit:
+
+0
+
+Neighbors:
+
+1, 2
+
+Go to 1
+
+Visit:
+
+0 1
+
+Neighbor:
+
+0
+
+already visited.
+
+Return.
+
+Back to 0
+
+Next neighbor:
+
+2
+
+Visit:
+
+0 1 2
+
+Go to 3
+
+Visit:
+
+0 1 2 3
+
+Done.
+
+Output:
+
+0 1 2 3
+
+
+Interview Rule
+
+When interviewer asks:
+
+What is the DFS traversal order?
+
+You must consider:
+
+for(int neighbor : graph.get(node))
+
+The order inside the adjacency list matters.
+
+More Important Insight
+
+For most interview questions:
+
+These do NOT care about order
+Number of Islands
+Connected Components
+Cycle Detection
+Bipartite Graph
+Union Find problems
+
+These CAN care about order
+Topological Sort
+Lexicographically smallest path
+Certain graph traversals
+Output-specific problems

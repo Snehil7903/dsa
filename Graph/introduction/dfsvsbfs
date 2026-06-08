@@ -1,0 +1,8 @@
+DFS vs BFS Cheat Sheet
+
+DFS	                           BFS
+Stack / Recursion	           Queue
+Goes deep first	               Goes level by level
+Uses less memory (usually)	   Uses more memory
+Good for components, cycles	   Good for shortest paths
+Backtracking friendly	       Distance friendly
