@@ -1,0 +1,50 @@
+Pattern 1
+
+Question says:
+
+prefix
+autocomplete
+dictionary
+contacts
+
+You immediately think:
+
+Trie
+
+
+Pattern 2
+
+Question says:
+
+wildcard
+any character
+regex-like search
+
+You think:
+
+Trie + DFS
+
+Pattern 3
+
+Question says:
+
+board
+words
+dictionary
+find all words
+
+You think:
+
+Trie + Backtracking
+
+Pattern 4
+
+Question says:
+
+maximum xor
+xor pair
+binary representation
+
+You think:
+
+Binary Trie
