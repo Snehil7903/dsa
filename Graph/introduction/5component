@@ -1,0 +1,196 @@
+"I'll iterate through all nodes. 
+Whenever I find an unvisited node, I'll start a DFS from it and increment my component count. 
+That DFS will mark the entire connected component as visited."
+
+The Master Pattern
+
+You will use this exact pattern in:
+
+Graphs
+Number of Connected Components
+Provinces
+Connected Cities
+Grids
+Number of Islands
+Count Sub-Islands
+Closed Islands
+Distinct Islands
+Other Variants
+Friend Circles
+Network Connectivity
+
+The pattern is always:
+
+for(each node/cell) {
+
+    if(not visited) {
+
+        count++;
+
+        dfs(...);
+    }
+}
+
+Code
+
+int countComponents(int n,
+                    List<List<Integer>> graph)
+{
+    boolean[] visited = new boolean[n];
+
+    int count = 0;
+
+    for(int node = 0; node < n; node++) {
+
+        if(!visited[node]) {
+
+            count++;
+
+            dfs(node, graph, visited);
+        }
+    }
+
+    return count;
+}
+
+Interview Insight
+
+Many graph problems are secretly:
+
+"How many times do I need to start a new DFS?"
+
+That's often the whole solution.
+
+for(each node) {
+
+    if(!visited[node]) {
+
+        count++;
+
+        dfs(node);
+    }
+}
+
+for(each cell) {
+
+    if(cell is land and not visited) {
+
+        islands++;
+
+        dfs(cell);
+    }
+}
+
+Interview Trick
+
+Don't think: Grid problem
+Think: Grid = Graph
+Every cell is a node.
+
+
+1. Out of Bounds
+if(r < 0 || c < 0 ||
+   r >= grid.length ||
+   c >= grid[0].length)
+{
+    return;
+}
+
+2. Water Cell
+if(grid[r][c] == '0')
+    return;
+
+Now imagine:
+
+1 1
+1 1
+
+DFS starts from top-left.
+
+Without another check:
+
+(0,0)
+→ (0,1)
+→ (0,0)
+→ (0,1)
+→ ...
+
+Infinite recursion.
+
+What prevents that?
+
+3. Already Visited
+
+Usually:
+
+if(visited[r][c])
+    return;
+
+OR
+
+the common optimization:
+
+grid[r][c] = '0';
+
+to mark visited directly.
+
+Then we don't need a separate visited array.
+
+Interview Optimization
+
+Most accepted solutions use:
+
+grid[r][c] = '0';
+
+because:
+
+visited array = extra memory
+
+and the problem allows modifying the grid.
+
+
+Full DFS Pattern
+
+void dfs(int r, int c) {
+
+    if(r < 0 || c < 0 ||
+       r >= rows || c >= cols)
+        return;
+
+    if(grid[r][c] == '0')
+        return;
+
+    grid[r][c] = '0';
+
+    dfs(r + 1, c);
+    dfs(r - 1, c);
+    dfs(r, c + 1);
+    dfs(r, c - 1);
+}
+
+
+
+Main Logic
+int islands = 0;
+
+for(int r = 0; r < rows; r++) {
+
+    for(int c = 0; c < cols; c++) {
+
+        if(grid[r][c] == '1') {
+
+            islands++;
+
+            dfs(r, c);
+        }
+    }
+}
+
+Huge Interview Insight
+
+Many grid DFS problems are just:
+
+Find component
+DFS component
+Mark visited
+Count component
