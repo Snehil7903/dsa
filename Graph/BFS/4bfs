@@ -1,0 +1,36 @@
+BFS Interpretation
+
+Think:
+
+Queue level = Time unit
+
+or
+
+BFS Level 0 = Minute 0
+BFS Level 1 = Minute 1
+BFS Level 2 = Minute 2
+
+This mental model solves:
+
+Rotting Oranges
+Word Ladder
+Shortest Path
+Minimum Knight Moves
+Open the Lock
+Nearest Exit
+01 Matrix
+
+
+BFS template.
+
+while(!q.isEmpty()) {
+
+    int size = q.size();
+
+    for(int i = 0; i < size; i++) {
+
+        // process current level
+    }
+
+    minutes++;
+}
