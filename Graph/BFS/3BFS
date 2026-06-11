@@ -1,0 +1,42 @@
+Multi-Source BFS
+
+Normal BFS:
+
+q.offer(startNode);
+
+One starting point.
+
+Rotting Oranges:
+
+Every rotten orange starts spreading simultaneously.
+
+So:
+
+for(all cells) {
+
+    if(grid[r][c] == 2) {
+
+        q.offer(new Pair(r,c));
+    }
+}
+
+We push all rotten oranges into the queue before BFS starts.
+
+Whenever you hear:
+
+Multiple starting points
+Spread simultaneously
+Nearest source
+
+Think:
+
+Multi-Source BFS
+
+Examples:
+
+Rotting Oranges
+Walls and Gates
+01 Matrix
+Nearest Hospital
+Fire Spread Problems
+Zombie Infection Problems

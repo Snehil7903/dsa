@@ -1,0 +1,15 @@
+Interview Rule
+
+Whenever the problem says:
+
+Minimum steps
+Minimum moves
+Minimum minutes
+Shortest path
+Nearest distance
+
+Your brain should immediately think:
+
+BFS
+
+because BFS explores level-by-level.
