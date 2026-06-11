@@ -17,3 +17,15 @@ Think:
 BFS
 
 Immediately.
+
+
+
+Interview Cheat Sheet
+Problem Type	                Tool
+Count Components	            DFS/BFS
+Number of Islands	            DFS/BFS
+Max Area of Island	            DFS
+Rotting Oranges	Multi-Source    BFS
+Shortest Path (Unweighted)	    BFS
+Minimum Moves	                BFS
+Minimum Time	                BFS
