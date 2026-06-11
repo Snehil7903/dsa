@@ -1,0 +1,54 @@
+Interview Insight
+
+Notice the pattern change.
+
+Number of Islands
+
+Question:
+
+How many components?
+
+DFS returns:
+
+void
+
+
+Max Area of Island
+
+Question:
+
+How big is a component?
+
+DFS returns:
+
+int
+
+Future Pattern
+
+Later you'll see:
+
+boolean dfs(...)
+
+for questions like:
+
+Is this island closed?
+
+and
+
+String dfs(...)
+
+for:
+
+Distinct Islands
+
+The DFS return type changes based on what information the problem asks for.
+
+This Is The Real Graph Skill
+
+Not memorizing DFS.
+
+But asking:
+
+What information should DFS return?
+
+That's how you solve new problems you've never seen before.
