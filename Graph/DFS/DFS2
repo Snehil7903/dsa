@@ -1,0 +1,34 @@
+Max Area of Island
+
+We care:
+
+How large is this component?
+
+So:
+
+int area = dfs(...);
+
+maxArea = Math.max(maxArea, area);
+
+A Very Important Pattern
+
+You are starting to see something powerful:
+
+DFS can return information
+void dfs(...)
+
+→ Visit component
+
+int dfs(...)
+
+→ Return size
+
+boolean dfs(...)
+
+Return validity
+
+String dfs(...)
+
+→ Return shape/signature
+
+This idea appears everywhere in Graphs, Trees, and DP.
