@@ -1,0 +1,19 @@
+The Golden Rule
+
+When you see:
+
+Shortest path
+Minimum moves
+Minimum jumps
+Minimum transformations
+Minimum minutes
+
+and
+
+All edges have equal weight
+
+Think:
+
+BFS
+
+Immediately.

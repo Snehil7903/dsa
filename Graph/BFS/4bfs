@@ -34,3 +34,17 @@ while(!q.isEmpty()) {
 
     minutes++;
 }
+
+This Is Bigger Than Rotting Oranges
+
+The exact same pattern appears in:
+
+Word Ladder
+Each level = one transformation
+Minimum Knight Moves
+Each level = one move
+
+Open The Lock
+Each level = one wheel rotation
+Shortest Path in Unweighted Graph
+Each level = one edge distance
