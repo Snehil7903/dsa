@@ -4,3 +4,36 @@ Walls and Gates
 Nearest Hospital
 Fire Spread Problems
 Zombie Infection Problems
+
+
+Interview Pattern Recognition
+
+At this point, I want you to start recognizing problems instead of solving them.
+
+When you see:
+
+Pattern A
+Count groups
+Count islands
+Connected regions
+
+Think:
+
+DFS / BFS Components
+
+
+Pattern B
+Minimum time
+Minimum moves
+Nearest source
+Spread process
+
+Think:
+BFS
+
+Pattern C
+Multiple simultaneous sources
+
+Think:
+
+Multi-Source BFS
