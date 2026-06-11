@@ -1,0 +1,184 @@
+Binary Exponentiation (Fast Power)
+
+It computes:a^b % MOD
+in:O(log b)
+instead of:O(b)
+
+ private long modPow(long a, long b){
+        long ans =1;
+        while(b>0){
+            if((b&1)==1){
+                ans = (ans*a)%MOD;
+            }
+            a = (a*a)%MOD;
+            b>>=1;
+        }
+        return ans;
+}
+
+Let's Dry Run
+a = 2
+b = 13
+ans = 1
+
+Iteration 1
+b = 13
+Binary:1101
+Last bit:1
+
+So:ans *= a
+ans = 2
+
+Square:a = a*a
+a = 4
+
+Shift:b >>= 1
+1101 -> 110
+b = 6
+
+Iteration 2
+b = 6
+
+Binary:110
+
+Last bit:0
+
+Don't multiply.
+Square:a = 16
+
+Shift:b = 3
+
+Iteration 3
+b = 3
+
+Binary:11
+
+Last bit:1
+
+Multiply:ans = 2 × 16
+= 32
+
+Square:a = 256
+
+Shift:
+b = 1
+Iteration 4
+b = 1
+
+Last bit:
+1
+Multiply:
+ans = 32 × 256
+= 8192
+Square:
+a = 65536
+Shift:
+b = 0
+Stop.
+
+Result:
+8192
+
+Correct.
+
+Why (b & 1)?
+
+Check last bit.
+
+Example:
+
+13 = 1101
+13 & 1
+1
+
+Example:
+
+6 = 110
+6 & 1
+0
+
+Meaning:
+
+odd number -> last bit 1
+even number -> last bit 0
+Why b >>= 1?
+
+Right shift by 1.
+
+Example:
+
+1101
+
+becomes
+
+110
+
+which is:
+
+13 -> 6
+
+Essentially:
+
+b /= 2
+Why a = a*a?
+
+Because we are generating:
+
+2
+4
+16
+256
+...
+
+which are:
+
+2^1
+2^2
+2^4
+2^8
+...
+
+Exactly the powers needed by binary decomposition.
+
+Visual Summary
+while(b>0){
+
+    if((b&1)==1)
+        ans*=a;
+
+    a*=a;
+
+    b>>=1;
+}
+
+Think:
+
+Take current power if bit is 1.
+
+Move to next power.
+
+Move to next bit.
+Why do we need MOD every time?
+
+Without:
+
+(ans*a)%MOD
+
+numbers become enormous:
+
+2^100000
+
+which won't fit in any datatype.
+
+Modulo keeps values bounded.
+
+This exact function appears in:
+
+Modular arithmetic
+Combinatorics
+Matrix exponentiation
+Graph counting
+DP optimizations
+Competitive programming almost daily
+
+If you master this 10-line function, you'll use it hundreds of times. 🔥
