@@ -1,0 +1,15 @@
+Pattern Recognition
+
+You've now seen three BFS styles:
+
+Graph BFS
+Queue<Integer>
+
+Grid BFS
+Queue<Pair>
+String-State BFS
+Queue<String>
+
+Same algorithm.
+
+Different state.

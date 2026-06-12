@@ -1,0 +1,32 @@
+// Assuming t[n+1][w+1] is already initialized
+int[][] t = new int[n + 1][w + 1];
+
+// 1. Base Case Initialization
+for (int i = 0; i < n + 1; i++) {
+    for (int j = 0; j < w + 1; j++) {
+        if (i == 0 || j == 0) {
+            t[i][j] = 0;
+        }
+    }
+}
+
+// 2. The Iterative Matrix Population Loop
+for (int i = 1; i < n + 1; i++) {
+    for (int j = 1; j < w + 1; j++) {
+        
+        // If the weight of the current item is less than or equal to current capacity 'j'
+        if (wt[i - 1] <= j) {
+            // Choice 1: Take item (add value, subtract its weight from column capacity)
+            // Choice 2: Skip item (pull value directly from the previous row)
+            t[i][j] = Math.max(val[i - 1] + t[i - 1][j - wt[i - 1]], t[i - 1][j]);
+        } 
+        else {
+            // Item is too heavy, skip it completely
+            t[i][j] = t[i - 1][j];
+        }
+        
+    }
+}
+
+// The final answer is stored at the bottom-right corner of the grid
+return t[n][w];
