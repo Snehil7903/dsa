@@ -1,0 +1,86 @@
+boolean dfs(int node) {
+
+    visited[node] = true;
+    pathVisited[node] = true;
+
+    for(int neighbor : graph.get(node)) {
+
+        if(!visited[neighbor]) {
+
+            if(dfs(neighbor))
+                return true;
+        }
+
+        else if(pathVisited[neighbor]) {
+
+            return true;
+        }
+    }
+
+    pathVisited[node] = false;
+
+    return false;
+}
+
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Solution {
+    private boolean[] visited;
+    private boolean[] pathVisited;
+    private List<List<Integer>> graph;
+
+    public boolean isCyclic(int numNodes, int[][] prerequisites) {
+        // 1. Initialize tracking arrays
+        visited = new boolean[numNodes];
+        pathVisited = new boolean[numNodes];
+        
+        // 2. Build the Adjacency List
+        graph = new ArrayList<>();
+        for (int i = 0; i < numNodes; i++) {
+            graph.add(new ArrayList<>());
+        }
+        for (int[] edge : prerequisites) {
+            int u = edge[1];
+            int v = edge[0];
+            graph.get(u).add(v); // Directed edge from u -> v
+        }
+
+        // 3. Main Controller Loop: Check every node
+        // Crucial for handling disconnected graph components!
+        for (int i = 0; i < numNodes; i++) {
+            if (!visited[i]) {
+                if (dfs(i)) {
+                    return true; // Cycle detected!
+                }
+            }
+        }
+
+        return false; // No cycles found in any component
+    }
+
+    // Your pristine DFS implementation
+    private boolean dfs(int node) {
+        visited[node] = true;
+        pathVisited[node] = true;
+
+        for (int neighbor : graph.get(node)) {
+            // If the neighbor hasn't been visited yet, explore it
+            if (!visited[neighbor]) {
+                if (dfs(neighbor)) {
+                    return true;
+                }
+            }
+            // If it HAS been visited, check if it's on our CURRENT recursion path
+            else if (pathVisited[neighbor]) {
+                return true; // Back-edge found! Cycle detected.
+            }
+        }
+
+        // Backtracking step: remove the node from the current path tracking
+        pathVisited[node] = false;
+        return false;
+    }
+}

@@ -1,0 +1,71 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class GraphCycleDetection {
+
+    // Method to check if the graph contains a cycle
+    public static boolean isCyclic(int vertices, List<List<Integer>> adj) {
+        boolean[] visited = new boolean[vertices];
+
+        // Loop handles disconnected components in the graph
+        for (int i = 0; i < vertices; i++) {
+            if (!visited[i]) {
+                // Initial parent of the starting node is set to -1
+                if (dfsCheck(i, -1, visited, adj)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // Helper method executing recursive DFS
+    private static boolean dfsCheck(int node, int parent, boolean[] visited, List<List<Integer>> adj) {
+        visited[node] = true;
+
+        // Traverse all neighboring vertices
+        for (int neighbor : adj.get(node)) {
+            // Case 1: If neighbor is not visited, recursively call DFS
+            if (!visited[neighbor]) {
+                if (dfsCheck(neighbor, node, visited, adj)) {
+                    return true;
+                }
+            } 
+            // Case 2: If neighbor is visited and is NOT the parent, a cycle exists
+            else if (neighbor != parent) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        int vertices = 5;
+        List<List<Integer>> adj = new ArrayList<>();
+
+        for (int i = 0; i < vertices; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        // Creating a cyclic undirected graph
+        // 0 --- 1 --- 2
+        //       |     |
+        //       4 --- 3
+        addEdge(adj, 0, 1);
+        addEdge(adj, 1, 2);
+        addEdge(adj, 2, 3);
+        addEdge(adj, 3, 4);
+        addEdge(adj, 4, 1); // This edge closes the loop
+
+        if (isCyclic(vertices, adj)) {
+            System.out.println("Graph contains a cycle.");
+        } else {
+            System.out.println("Graph does not contain a cycle.");
+        }
+    }
+
+    private static void addEdge(List<List<Integer>> adj, int u, int v) {
+        adj.get(u).add(v);
+        adj.get(v).add(u);
+    }
+}
