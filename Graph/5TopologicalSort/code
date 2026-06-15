@@ -1,0 +1,40 @@
+import java.util.*;
+
+class Solution {
+    // Main function to return topological sort
+    public int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) {
+        boolean[] visited = new boolean[V];
+        Stack<Integer> stack = new Stack<>();
+
+        // Call the DFS helper for all unvisited nodes
+        for (int i = 0; i < V; i++) {
+            if (!visited[i]) {
+                dfs(i, adj, visited, stack);
+            }
+        }
+
+        // Pop elements from the stack to get the topological order
+        int[] result = new int[V];
+        int index = 0;
+        while (!stack.isEmpty()) {
+            result[index++] = stack.pop();
+        }
+
+        return result;
+    }
+
+    // Helper DFS function
+    private void dfs(int node, ArrayList<ArrayList<Integer>> adj, boolean[] visited, Stack<Integer> stack) {
+        visited[node] = true;
+
+        // Traverse all the neighbors
+        for (int neighbor : adj.get(node)) {
+            if (!visited[neighbor]) {
+                dfs(neighbor, adj, visited, stack);
+            }
+        }
+
+        // Push the current node to the stack after visiting all its neighbors
+        stack.push(node);
+    }
+}
