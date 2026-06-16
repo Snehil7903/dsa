@@ -1,0 +1,13 @@
+// int parent already given
+// parent = [0,0,1,2,3]
+
+int find(int x){
+    if(parent[x] == x)return x;
+    return find(parent[x]);
+}
+
+//With Compression
+int find(int x){
+    if(parent[x] == x)return x;
+    return parent[x]= find(parent[x]);
+}

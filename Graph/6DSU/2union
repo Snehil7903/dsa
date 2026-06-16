@@ -1,0 +1,29 @@
+void unionBySize(int x, int y) {
+
+    int rootX = find(x);
+    int rootY = find(y);
+
+    if(rootX == rootY)
+        return;
+
+    if(size[rootX] < size[rootY]) {
+
+        parent[rootX] = rootY;
+        size[rootY] += size[rootX];
+
+    } else {
+
+        parent[rootY] = rootX;
+        size[rootX] += size[rootY];
+    }
+}
+
+// Complexity becomes:
+
+// O(α(N)) where:
+
+// α(N)
+
+// is the Inverse Ackermann Function
+
+// "It's an extremely slowly growing function. For all practical input sizes, it's less than 5, so we treat DSU operations as nearly O(1)."

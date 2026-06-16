@@ -1,0 +1,12 @@
+<!-- Count the number of connected components.
+
+You have two options.
+
+DFS
+Build graph
+DFS each component
+DSU
+Union all edges
+Count unique parents
+
+Both work. -->

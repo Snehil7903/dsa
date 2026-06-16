@@ -1,0 +1,43 @@
+When to Use What?
+
+This is worth memorizing.
+
+Situation	                        Use
+Count connected components once	    DFS/BFS or DSU
+Dynamic edge additions	            ✅ DSU
+RepeatedAre A and B connected?"	    ✅ DSU
+Need actual traversal/path	        DFS/BFS
+Shortest path	                    BFS/Dijkstra
+Cycles in dependencies	            DFS/Topological Sort 
+
+Example
+
+Suppose there are: 100,000 nodes and 100,000 operations
+
+Operations:- 
+union(1,2)
+
+union(5,7)
+
+connected(2,7)
+
+union(2,5)
+
+connected(1,7)
+
+union(9,10)
+
+...
+
+Imagine doing DFS for every connected() query.
+
+😱 That would be terrible.
+
+DSU:
+
+connected(a,b) {
+
+    return find(a) == find(b);
+}
+
+done...
