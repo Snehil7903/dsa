@@ -1,0 +1,17 @@
+Interview Question
+
+I have asked this exact question to candidates.
+
+Why do we need a Priority Queue?
+
+Most candidates answer:
+
+"Because Dijkstra uses a Priority Queue."
+
+❌ Wrong.
+
+The correct answer is:
+
+Because at every step we need to efficiently retrieve the unprocessed node with the minimum tentative distance.
+
+The Priority Queue is just a data structure that supports this efficiently.
