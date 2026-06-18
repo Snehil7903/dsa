@@ -1,0 +1,9 @@
+| BFS             | Dijkstra                         |
+| --------------- | -------------------------------- |
+| `visited[]`     | `dist[]`                         |
+| Queue           | Priority Queue                   |
+| FIFO            | Minimum Distance First           |
+| Edge weight = 1 | Edge weight ≥ 0                  |
+| Level Order     | Distance Order                   |
+| Visit Once      | Node may enter PQ multiple times |
+| O(V+E)          | O((V+E) log V)                   |
