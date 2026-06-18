@@ -1,0 +1,169 @@
+// Step 1
+// dist[source] = 0;
+
+// Everything else:
+
+// INF
+
+// Step 2
+
+// Push
+
+// (source,0)
+
+// into Priority Queue.
+
+// Step 3
+
+// While PQ is not empty
+
+// Pop
+
+// (node,distance)
+
+
+// Step 4
+
+// Ignore outdated entries
+
+// if(distance > dist[node])
+//     continue;
+
+// Step 5
+
+// Visit every neighbour
+
+// For every
+
+// (neighbour,weight)
+
+// check
+
+// if(dist[neighbour] > dist[node] + weight)
+
+// If yes
+
+// dist[neighbour] = dist[node] + weight;
+
+// pq.offer(new Pair(neighbour, dist[neighbour]));
+
+// Repeat.
+
+
+
+
+
+// Java Representation
+
+// There are several ways.
+
+// Method 1 (Interview Standard) ⭐⭐⭐⭐⭐
+
+// Create an Edge class.
+
+// class Edge {
+
+//     int node;
+//     int weight;
+
+//     Edge(int node, int weight) {
+//         this.node = node;
+//         this.weight = weight;
+//     }
+// }
+
+// Then:
+
+// ArrayList<ArrayList<Edge>> graph;
+
+// Now
+
+// graph.get(0)
+
+// contains
+
+// (1,4)
+
+// (2,2)
+
+// Beautiful.
+
+// Method 2
+// ArrayList<List<int[]>>
+
+// where
+
+// int[]{neighbor, weight}
+
+// Very common in LeetCode.
+
+// Method 3
+
+// Create Pair
+
+// class Pair{
+
+//     int node;
+//     int weight;
+// }
+
+// Also acceptable.
+
+
+// Interview-Level Code Structure
+// class Edge {
+
+//     int to;
+//     int weight;
+
+// }
+
+// class State {
+
+//     int node;
+//     int distance;
+
+// }
+
+// Now every line becomes self-explanatory.
+
+class State {
+
+    int node;
+    int distance;
+
+}
+
+int[] dist;
+
+Arrays.fill(dist, INF);
+
+dist[source] = 0;
+
+PriorityQueue<State> pq =new PriorityQueue<>((a,b)->a.distance-b.distance);
+
+while(!pq.isEmpty()){
+
+State current = pq.poll();
+    int node = current.node;
+    int distance = current.distance;
+
+    // Is this entry outdated?
+    if(distance>dist[node]) continue;
+
+    for(Edge edge : graph.get(current.node)){
+
+        int neighbor = edge.to;
+        int weight = edge.weight;
+
+        if(dist[neighbor] > dist[current.node] + weight){
+
+            int newDistance = dist[current.node] + weight;
+
+            dist[neighbor] = newDistance;
+
+            pq.offer(new State(neighbor,newDistance));
+
+        }
+    }
+}
