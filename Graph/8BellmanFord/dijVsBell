@@ -5,3 +5,12 @@
 | Priority Queue               | Simple loops                        |
 | Cannot handle negative edges | Can handle negative edges           |
 | O(E log V)                   | O(V × E)                            |
+
+
+| Dijkstra                      | Bellman-Ford                         |
+| ----------------------------- | ------------------------------------ |
+| Greedy                        | Dynamic Programming-style relaxation |
+| Uses Priority Queue           | Uses repeated edge relaxation        |
+| O((V+E) log V)                | O(V×E)                               |
+| Non-negative weights only     | Handles negative weights             |
+| Cannot detect negative cycles | Can detect negative cycles           |
