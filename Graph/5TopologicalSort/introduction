@@ -1,14 +1,14 @@
-The Key Insight
+// The Key Insight
 
-A node should be added after all its dependencies are processed.
+// A node should be added after all its dependencies are processed.
 
-for(neighbor)
-    dfs(neighbor);
+// for(neighbor)
+//     dfs(neighbor);
 
-stack.push(node);
+// stack.push(node);
 
-Topological Sort exists iff the graph is a DAG
+// Topological Sort exists iff the graph is a DAG
 
-(DAG = Directed Acyclic Graph)
+// (DAG = Directed Acyclic Graph)
 
-Cycle ⇒ No Topological Ordering
+// Cycle ⇒ No Topological Ordering
