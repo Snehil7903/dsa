@@ -1,0 +1,67 @@
+// 1514. Path with Maximum Probability
+
+class Solution {
+    static class Pair{
+        double prob;
+        int node;
+
+        Pair(double prob, int node){
+            this.prob = prob;
+            this.node = node;
+        }
+    }
+
+    static class Edge {
+        int to;
+        double prob;
+
+        Edge(int to, double prob){
+            this.to= to;
+            this.prob = prob;
+        }
+    }
+
+    public double maxProbability(int n, int[][] edges, double[] succProb, int start_node, int end_node) {
+
+        List<List<Edge>> graph = new ArrayList<>();
+        for(int i =0; i<n; i++){
+            graph.add(new ArrayList<>());
+        }
+        for(int i =0; i<edges.length; i++){
+            int u = edges[i][0];
+            int v = edges[i][1];
+            double p = succProb[i];
+            graph.get(u).add(new Edge(v,p));
+            graph.get(v).add(new Edge(u,p));
+        }
+
+        double[] maxProb = new double[n];
+        maxProb[start_node]=1.0;
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)->Double.compare(b.prob, a.prob));
+        maxProb[start_node]=1;
+        pq.offer(new Pair(1.0, start_node));
+
+        while(!pq.isEmpty()){
+            Pair curr = pq.poll();
+            double currProb = curr.prob;
+            int currNode = curr.node;
+
+            if(currNode == end_node){
+                return currProb;
+            }
+
+            if(currProb < maxProb[currNode]){
+                continue;
+            }
+
+            for(Edge edge : graph.get(currNode)){
+                double nextProb = currProb * edge.prob;
+                if(nextProb> maxProb[edge.to]){
+                    maxProb[edge.to] = nextProb;
+                    pq.offer(new Pair(nextProb, edge.to));
+                }
+            }
+        }
+        return 0.0;
+    }
+}
