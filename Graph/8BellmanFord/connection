@@ -1,0 +1,15 @@
+Unweighted Graph
+        │
+        ▼
+      BFS
+        │
+        ▼
+Weighted Graph
+        │
+        ▼
+Are weights non-negative?
+      /      \
+    Yes       No
+     │         │
+     ▼         ▼
+ Dijkstra   Bellman-Ford

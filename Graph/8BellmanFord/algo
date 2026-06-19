@@ -1,0 +1,29 @@
+So the Algorithm Is...
+
+Initialize
+
+dist[source] = 0;
+
+Then
+
+repeat V-1 times
+
+    for every edge
+
+        relax it
+
+That's literally Bellman-Ford.
+
+
+
+Initialize distances
+
+Repeat V-1 times:
+
+    Relax every edge
+
+One more pass:
+
+    If any edge relaxes:
+
+        Negative cycle exists.

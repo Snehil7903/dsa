@@ -1,0 +1,7 @@
+| Dijkstra                     | Bellman-Ford                        |
+| ---------------------------- | ----------------------------------- |
+| Pick one node                | Relax every edge                    |
+| Greedy                       | Dynamic Programming-like relaxation |
+| Priority Queue               | Simple loops                        |
+| Cannot handle negative edges | Can handle negative edges           |
+| O(E log V)                   | O(V × E)                            |
