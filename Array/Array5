@@ -1,0 +1,38 @@
+// 1840. Maximum Building Height
+
+
+class Solution {
+    public int maxBuilding(int n, int[][] restrictions) {
+
+        List<int[]> list = new ArrayList<>();
+
+        list.add(new int[]{1,0});
+        for(int[] r: restrictions)
+        list.add(new int[]{r[0],r[1]});
+
+        list.add(new int[]{n,n-1});
+
+        Collections.sort(list,(a,b)->a[0]-b[0]);
+
+        for(int i =1; i<list.size(); i++){
+            int[] prev = list.get(i-1);
+            int[] cur = list.get(i);
+            cur[1] = Math.min(cur[1], prev[1]+cur[0]-prev[0]);
+        }
+
+        for(int i = list.size()-2; i>=0; i--){
+            int[] cur = list.get(i);
+            int[] next = list.get(i+1);
+            cur[1] = Math.min(cur[1], next[1]+next[0]-cur[0]);
+        }
+        int ans =0;
+        for(int i =1; i<list.size(); i++){
+            int[] a = list.get(i-1);
+            int[] b = list.get(i);
+            int dist = b[0]-a[0];
+            int peak = Math.max(a[1],b[1])+(dist-Math.abs(a[1]-b[1]))/2;
+            ans = Math.max(ans, peak);
+        }
+        return ans;
+    }
+}
