@@ -1,5 +1,7 @@
 // 1840. Maximum Building Height
 
+//This includes forward, backward and final pass of the array
+//Also implements unique concept of minima and maxima...
 
 class Solution {
     public int maxBuilding(int n, int[][] restrictions) {
