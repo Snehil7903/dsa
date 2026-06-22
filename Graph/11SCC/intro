@@ -1,0 +1,57 @@
+<!-- The source SCC in the condensation graph always has the largest finishing time. -->
+
+Step 1
+Run DFS.
+Record finishing order.
+Usually we push nodes onto a stack.
+
+dfs(node){
+    visited[node]=true;
+    ...
+    stack.push(node);
+}
+
+Why push after DFS finishes?
+Because the node with the largest finishing time ends up on top.
+Exactly what we want.
+
+Step 2
+Reverse every edge.
+Suppose
+0 → 1
+becomes
+1 → 0
+Very simple.
+
+Step 3
+Clear
+visited[]
+
+Step 4
+Pop nodes from the stack.
+For every unvisited node,
+run DFS on the reversed graph.
+Every DFS gives exactly
+One SCC.
+Done.
+
+DFS
+↓
+Stack (finishing order)
+↓
+Reverse Graph
+↓
+DFS using stack order
+↓
+Count SCCs
+
+Time Complexity
+Let's derive it.
+First DFS
+O(V+E)
+Reverse Graph
+O(E)
+Second DFS
+O(V+E)
+Total
+O(V+E)

@@ -1,0 +1,65 @@
+import java.util.*;
+
+class Solution {
+    // Standard DFS to track the finishing times of nodes
+    private void dfs1(int node, boolean[] visited, List<List<Integer>> adj, Stack<Integer> stack) {
+        visited[node] = true;
+        
+        for (int neighbor : adj.get(node)) {
+            if (!visited[neighbor]) {
+                dfs1(neighbor, visited, adj, stack);
+            }
+        }
+        
+        // Step 1 Finish: Push onto the stack after exploring all branches
+        stack.push(node);
+    }
+
+    // Secondary DFS to collect components on the reversed graph
+    private void dfs2(int node, boolean[] visited, List<List<Integer>> adjTranspose) {
+        visited[node] = true;
+        
+        for (int neighbor : adjTranspose.get(node)) {
+            if (!visited[neighbor]) {
+                dfs2(neighbor, visited, adjTranspose);
+            }
+        }
+    }
+
+    public int kosaraju(int V, List<List<Integer>> adj) {
+        // Step 1: Run DFS and build finishing time order stack
+        boolean[] visited = new boolean[V];
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < V; i++) {
+            if (!visited[i]) {
+                dfs1(i, visited, adj, stack);
+            }
+        }
+
+        // Step 2: Reverse every edge (Transpose the Graph)
+        List<List<Integer>> adjTranspose = new ArrayList<>();
+        for (int i = 0; i < V; i++) {
+            adjTranspose.add(new ArrayList<>());
+        }
+        for (int u = 0; u < V; u++) {
+            for (int v : adj.get(u)) {
+                adjTranspose.get(v).add(u); // Reverse direction from u->v to v->u
+            }
+        }
+
+        // Step 3: Reset the visited map
+        Arrays.fill(visited, false);
+
+        // Step 4: Process stack to count matching SCC partitions
+        int sccCount = 0;
+        while (!stack.isEmpty()) {
+            int node = stack.pop();
+            if (!visited[node]) {
+                sccCount++; // Every fresh DFS root reveals exactly one new SCC!
+                dfs2(node, visited, adjTranspose);
+            }
+        }
+
+        return sccCount;
+    }
+}
