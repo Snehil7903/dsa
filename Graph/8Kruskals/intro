@@ -1,0 +1,66 @@
+Step 1
+Sort all edges.
+Why?
+Because we want the minimum cost.
+
+Step 2
+Take the smallest edge.
+
+Step 3
+Before adding it,
+ask
+find(u) == find(v)
+
+If YES
+↓
+Reject.
+Cycle.
+If NO
+↓
+Accept.
+union(u,v);
+
+Therefore Kruskal Stops Here
+Instead of processing all edges:
+We stop as soon as we've accepted:
+V - 1
+edges.
+No need to look at the remaining edges.
+
+
+🎉 Congratulations!
+Let's appreciate what you just did.
+You have now derived Kruskal's algorithm.
+Not memorized.
+Derived.
+
+
+Complete Kruskal
+Step 1
+Sort all edges by weight.
+Smallest → Largest
+Step 2
+For each edge:
+if(find(u) != find(v))
+Accept it.
+union(u,v);
+Add its weight to the answer.
+Increase:
+edgesUsed++;
+Step 3
+If:
+edgesUsed == V - 1
+Stop.
+Done.
+
+
+
+Look at the algorithm.
+Sort edges
+↓
+DSU
+↓
+Done
+That's it.
+Kruskal is literally:
+Sorting + DSU + Greedy
