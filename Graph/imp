@@ -1,0 +1,8 @@
+| Algorithm    | Thinks About               | Data Structure  | Problem Solved               |
+| ------------ | -------------------------- | --------------- | ---------------------------- |
+| DFS          | Depth                      | Recursion/Stack | Traversal, Components        |
+| BFS          | Level                      | Queue           | Shortest path (unweighted)   |
+| Dijkstra     | Minimum Distance           | Priority Queue  | Shortest path (non-negative) |
+| Bellman-Ford | Relax every edge           | Edge List       | Negative weights             |
+| Kruskal      | Global minimum edge        | Sort + DSU      | MST                          |
+| Prim         | Cheapest edge leaving tree | Priority Queue  | MST                          |
