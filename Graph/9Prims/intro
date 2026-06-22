@@ -1,26 +1,26 @@
-Step 1
-Choose any starting node.
-For example:
-0
-Why any node ?
-    Because the MST cost is independent of the starting node(though the actual tree can differ if there are ties).
+// Step 1
+// Choose any starting node.
+// For example:
+// 0
+// Why any node ?
+//     Because the MST cost is independent of the starting node(though the actual tree can differ if there are ties).
 
 
-Step 2
-Push
-    (node, edgeWeight)
-into a Priority Queue.
-    Initially:
-(0, 0)
+// Step 2
+// Push
+//     (node, edgeWeight)
+// into a Priority Queue.
+//     Initially:
+// (0, 0)
 
-Step 3
-Pop the minimum edge.
+// Step 3
+// Pop the minimum edge.
 
-    while(!pq.isEmpty()){
-    if (visited[node])
-        continue;
-    visited[node] = true;
-    mstCost += current.weight;
-    for (Edge e : graph.get(node))
-    !visited[e.to]
-        (e.to, e.weight)
+//     while(!pq.isEmpty()){
+//     if (visited[node])
+//         continue;
+//     visited[node] = true;
+//     mstCost += current.weight;
+//     for (Edge e : graph.get(node))
+//     !visited[e.to]
+//         (e.to, e.weight)
