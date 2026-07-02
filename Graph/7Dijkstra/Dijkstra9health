@@ -1,0 +1,36 @@
+3286. Find a Safe Walk Through a Grid
+
+
+class Solution {
+    public boolean findSafeWalk(List<List<Integer>> grid, int health) {
+        int n = grid.size();
+        int m = grid.get(0).size();
+        int[][] dir = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+        int[][] best = new int[n][m];
+        for (int[] row : best)
+            Arrays.fill(row, -1);
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> b[0] - a[0]);
+        int startHealth = health - grid.get(0).get(0);
+        pq.offer(new int[]{startHealth,0,0});
+        best[0][0]=startHealth;
+        while (!pq.isEmpty()) {
+            int[] cur = pq.poll();
+            int h = cur[0];
+            int r = cur[1];
+            int c = cur[2];
+            if(h < best[r][c])continue;
+            if (r == n - 1 && c == m - 1) return h>0;
+            for (int[] d : dir) {
+                int nr = r + d[0];
+                int nc = c + d[1];
+                if (nr < 0 || nc < 0 || nr >= n || nc >= m)continue;
+                int newHealth = h - grid.get(nr).get(nc);
+                if(newHealth > best[nr][nc] && newHealth >= 0){
+                best[nr][nc]=newHealth;
+                pq.offer(new int[]{newHealth,nr,nc});
+                }
+            }
+        }
+        return false;
+    }
+}
