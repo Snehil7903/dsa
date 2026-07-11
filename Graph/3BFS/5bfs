@@ -1,0 +1,41 @@
+2685. Count the Number of Complete Components
+
+
+class Solution {
+    public int countCompleteComponents(int n, int[][] edges) {
+        List<List<Integer>> graph =  new ArrayList<>();
+        for(int i =0; i<n; i++){
+            graph.add(new ArrayList<>());
+        }
+        for(int[]e:edges){
+            int u = e[0];
+            int v = e[1];
+            graph.get(u).add(v);
+            graph.get(v).add(u);
+        }
+        boolean[] visited = new boolean[n];
+        Queue<Integer> q = new LinkedList<>();
+        int ans=0;
+        for(int i =0 ; i<n ; i++){
+            if(visited[i]!=true){
+                int nodesCount=0;
+                int edgeCount=0;
+                visited[i]=true;
+                q.offer(i);
+                while(!q.isEmpty()){
+                    nodesCount++;
+                    int node = q.poll();
+                    edgeCount += graph.get(node).size();
+                    for(int neighbor: graph.get(node)){
+                        if(!visited[neighbor]){
+                            visited[neighbor]=true;
+                            q.offer(neighbor);
+                        }
+                    }
+                }
+                if(edgeCount==((nodesCount)*(nodesCount-1))) ans++;
+            }
+        }
+        return ans;
+    }
+}
